@@ -1,0 +1,17 @@
+#container{
+    height:500px;
+    width:350px;
+    border:2px solid black;
+    
+
+}
+.box1{
+    height:200px;
+    width:150px;
+    background-color: rebeccapurple;
+}
+.box2{
+    height:200px;
+    width:150px;
+    background-color: coral;
+}
