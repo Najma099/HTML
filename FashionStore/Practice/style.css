@@ -1,0 +1,27 @@
+*{
+    margin: 0%;
+    padding: 0%;
+}
+body{
+    font-family: sans-serif;
+}
+.navbar{
+    padding: 20px;
+    background-color: #212529;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+}
+
+.cart{
+    position: relative;
+
+}
+
+.cartamount{
+    position: absolute;
+    border-radius: 50%;
+    background-color: red;
+    padding: 2px;
+    top:-15px;
+}

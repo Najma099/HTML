@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../node_modules/bootstrap-icons/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css">
+    <style>
+        input + div {
+            display: none;
+        }
+        input:focus + div {
+            display: block;
+            color: goldenrod;
+        }
+        input::placeholder{
+            color:lightblue;
+            font-size: 10px;
+        }
+    </style>
+</head>
+<body>
+    <form class="container-fluid m-5">
+        <dl>
+            <dt>
+                UserName
+            </dt>
+            <dd>
+                <input type="text" name="textUser" placeholder="enter your name">
+                <div>
+                    <span class="bi bi-info-circle">Username is uppercase</span>
+                </div>
+            </dd>
+        </dl>
+    </form>
+</body>
+</html>

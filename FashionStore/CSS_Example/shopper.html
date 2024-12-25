@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../node_modules/bootstrap-icons/font/bootstrap-icons.css">
+    <style>
+        header{
+            margin:10px;
+            padding: 10px;
+            background-color: black;
+            color: white;
+        }
+        header div{
+            font-weight: bold;
+            font-size: 20px;
+        }
+        @media screen  and (orientation:landscape) { 
+            header{
+                display: flex;
+                justify-content: space-around;
+            }
+
+            nav span {
+                margin-left: 10px;
+            }
+            aside span {
+                margin-left: 10px;
+            }
+
+            .bi-justify{
+                display: none;
+            }
+        }
+        @media screen and (orientation:portrait){
+            header{
+                display: flex;
+                justify-content: space-between;
+            }
+            nav,aside{
+                display:none;
+            }
+        }
+
+        @media screen and (width <= 500px) {
+            header{
+                background-color: red;
+            }
+        }
+
+        
+    </style>
+</head>
+<body>
+    <header>
+        <div>Shopper.</div>
+        <nav>
+            <span>Home</span>
+            <span>Catelog</span>
+            <span>Shop</span>
+            <span>page</span>
+            <span>Blog</span>
+            <span>docs</span>
+        </nav>
+        <aside>
+            <span class="bi bi-search"></span>
+            <span class="bi bi-person"></span>
+            <span class="bi bi-heart"></span>
+            <span class="bi bi-cart2"></span>
+        </aside>
+        <span class="bi bi-justify">
+
+        </span>
+    </header>
+</body>
+</html>

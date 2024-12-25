@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../node_modules/bootstrap-icons/font/bootstrap-icons.css">
+    <style>
+        
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+        .menu {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        ul {
+            list-style: none;
+            margin-left: -20px;
+        }
+        .search-area {
+            display: flex;
+            align-items: center;
+        } 
+        .search-box {
+            width: 550px;
+            border: 1px solid black;
+            border-radius: 20px;
+            padding: 8px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .bi-mic-fill {
+            margin-left: 20px;
+            border-radius: 20px;
+            padding: 8px;
+            background-color: dimgray;
+        }
+        .user-area span{
+            display: inline-block;
+            margin-right: 20px;
+        }
+        .profile {
+            background-color: coral;
+            border-radius: 50px;
+            padding: 5px;
+        }
+        section{
+           display: grid;
+           grid-template-columns: 3fr 9fr;
+        }
+        .navigation span{
+            margin-right: 25px;
+        }
+        .navigation li {
+            margin-bottom: 10px;
+        }
+        article{
+            display: grid;
+            grid-template-columns: 2fr 10fr;
+        }
+        .top img {
+            margin-left: 90px;
+            margin-right: 40px;
+            margin-bottom: 10px;
+        }
+        .logo img{
+            border-radius: 50%;
+        }
+        main nav {
+            margin-left: 90px;
+            margin-right: 40px;
+        }
+        main nav ul {
+            display: flex;
+        }
+        main nav li {
+            margin-right: 20px;
+            text-transform: capitalize;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="menu">
+            <span class="bi bi-list"></span>
+            <span><img src="../public/image/WhatsApp Image 2024-08-12 at 10.35.20.jpeg" height="40px" width="150px"></span>
+        </div>
+        <div class="search-area">
+            <div class="search-box">
+                <span>search</span>
+                <span class="bi bi-search"></span>
+            </div>
+            <div class="bi bi-mic-fill"></div>
+        </div>
+        <div class="user-area">
+            <span class="bi bi-camera-video"></span>
+            <span class="bi bi-bell"></span>
+            <span class="profile">N</span>
+        </div>
+    </header>
+    <section>
+        <nav>
+            <ul class="navigation">
+                <li ><span class="bi bi-house"></span>Home</li>
+                <li ><span class="bi bi-play-circle"></span>Shorts</li>
+                <li ><span class="bi bi-collection-play"></span>subscriptions</li>
+            </ul>
+            <hr>
+        </nav>
+        <main>
+            <div class="top">
+                <img src="../public/image/banneryou.jpeg"  >
+                <article>
+                    <div class="logo">
+                        <img src="../public/image/logopw.jpeg">
+                    </div>
+                    <div>
+                        <div>
+                            PW Institute of Innovation
+                        </div>
+                        <div>
+                            @PW-IOI•7.24K subscribers•157 videos
+                        </div>
+                        <div>
+                            Shaping Futures, Empowering Innovators! 🚀 <b>...more</b>
+                        </div>
+                        <div>
+                            pwioi.com/?utm_source=Youtube&utm_medium=Social&utm_campaign=Organic... <b>and 8 more links</b>
+                        </div>
+                    </div>
+                </article>
+                <nav>
+                    <ul>
+                        <li>home</li>
+                        <li>short</li>
+                        <li>playlist</li>
+                        <li>video</li>
+                        <li>community</li>
+                    </ul>
+                </nav>
+                <hr>
+            </div>
+            <div class="below">
+
+            </div>
+        </main>
+    </section>
+</body>
+</html>

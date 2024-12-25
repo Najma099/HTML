@@ -1,0 +1,15 @@
+div{
+    background-color: lightblue;
+    padding: 40px;
+    width: 500px;
+}
+dl {
+    display: grid;
+    grid-template-columns: 6fr 6fr;
+}
+dt {
+    font-weight: bold;
+}
+button {
+    text-align: center;
+}
