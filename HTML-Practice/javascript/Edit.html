@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body style="background-color: black; color: white;">
+    <ul>
+        <li>JavaScript</li>
+    </ul>
+</body>
+<script>
+    //add
+    function addEle(LanName) {
+        const ele = document.createElement('li');
+        ele.append(document.createTextNode(LanName));
+        const parent = document.querySelector("ul");
+        parent.append(ele);
+    }
+    addEle('MOjo');
+    addEle("python");
+    addEle("typescript");
+
+    //Edit
+    const elem = document.querySelector('li:nth-child(2)');
+    console.log(elem);
+    const newEle = document.createElement('li');
+    newEle.append(document.createTextNode('mojooooo'));
+    elem.replaceWith(newEle);
+
+    //removeeee
+    const rem = document.querySelector('li:last-child');
+    rem.remove();
+</script>
+</html>
