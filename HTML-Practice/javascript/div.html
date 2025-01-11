@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #outer{
+            height: 600px;
+            width: 600px;
+            background-color: rgb(149, 149, 224);
+            color: #fff;
+            margin: 40px;
+            border: 20px;
+        }
+        #inner{
+            height: 400px;
+            width: 400px;
+            background-color: rgb(123, 123, 233);
+            color: #fff;
+            margin: 90px;
+            border: 20px;
+        }
+        #innerr{
+            height: 200px;
+            width: 200px;
+            background-color: rgb(71, 71, 228);
+            color: #fff;
+            margin: 90px;
+            border: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="outer"> Grandprent
+        <div id="inner"> Parent
+            <div id="innerr">
+                Child
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    const grandparent = document.querySelector('#outer');
+    const parent = document.querySelector('#inner');
+    const child = document.querySelector('#innerr');
+    grandparent.addEventListener('click',() => alert('grandparent is clicked'),true);
+    parent.addEventListener('click',() => alert('parent is clicked'),true);
+    child.addEventListener('click',() => alert('child is clicked'),true);
+</script>
+</html>
