@@ -9,9 +9,11 @@ function change() {
     return color;
 }
 const changecolor = function () {
-    intervalid = setInterval(() => {
-         document.body.style.backgroundColor = change();
-    },1000)
+    if(!intervalid) {
+        intervalid = setInterval(() => {
+            document.body.style.backgroundColor = change();
+       },1000)
+    }
  }
  
 document.querySelector('#start').addEventListener('click', changecolor)
@@ -21,4 +23,5 @@ document.querySelector('#stop').addEventListener('click', stopcolour);
 
 function stopcolour() {
     clearInterval(intervalid);
+    intervalid = null;
 }
