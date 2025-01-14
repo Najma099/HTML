@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        #todo-container {
+            width: 300px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: none;
+            outline: none;
+            background-color: #333;
+            color: white;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            background-color: #555;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #777;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            padding: 10px;
+            margin-bottom: 5px;
+            background-color: #222;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .delete-btn {
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        .delete-btn:hover {
+            background-color: darkred;
+        }
+    </style>
+</head>
+<body>
+    <h1>To-Do List</h1>
+    <div id="todo-container">
+        <input type="text" id="todo-input" placeholder="Add a new task..." />
+        <button onclick="addTodo()">Add Task</button>
+        <ul id="todo-list"></ul>
+    </div>
+    <script>
+        function addTodo() {
+            const todoInput = document.getElementById('todo-input');
+            const todoList = document.getElementById('todo-list');
+            const task = todoInput.value.trim();
+
+            if (task) {
+                const li = document.createElement('li');
+                li.textContent = task;
+
+                const deleteButton = document.createElement('button');
+                deleteButton.textContent = 'Delete';
+                deleteButton.classList.add('delete-btn');
+                deleteButton.onclick = () => li.remove();
+
+                li.appendChild(deleteButton);
+                todoList.appendChild(li);
+
+                todoInput.value = '';
+            }
+        }
+    </script>
+</body>
+</html>
