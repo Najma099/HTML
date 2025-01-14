@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
-        #outer{
+        #grandparent{
             height: 600px;
             width: 600px;
             background-color: rgb(149, 149, 224);
@@ -13,7 +13,7 @@
             margin: 40px;
             border: 20px;
         }
-        #inner{
+        #parent{
             height: 400px;
             width: 400px;
             background-color: rgb(123, 123, 233);
@@ -21,7 +21,7 @@
             margin: 90px;
             border: 20px;
         }
-        #innerr{
+        #child{
             height: 200px;
             width: 200px;
             background-color: rgb(71, 71, 228);
@@ -33,20 +33,40 @@
 </head>
 
 <body>
-    <div id="outer"> Grandprent
-        <div id="inner"> Parent
-            <div id="innerr">
+    <div id="grandparent"> Grandprent
+        <div id="parent"> Parent
+            <div id="child">
                 Child
             </div>
         </div>
     </div>
 </body>
 <script>
-    const grandparent = document.querySelector('#outer');
-    const parent = document.querySelector('#inner');
-    const child = document.querySelector('#innerr');
-    grandparent.addEventListener('click',() => alert('grandparent is clicked'),true);
-    parent.addEventListener('click',() => alert('parent is clicked'),true);
-    child.addEventListener('click',() => alert('child is clicked'),true);
+    // const grandparent = document.querySelector('#outer');
+    // const parent = document.querySelector('#inner');
+    // const child = document.querySelector('#innerr');
+    // grandparent.addEventListener('click',(e) => {
+    //     alert('grandparent is clicked')
+    // } ,true);
+    // parent.addEventListener('click',() => alert('parent is clicked + e.target.id + this.id'),true);
+    // child.addEventListener('click',() => alert('child is clicked'),true);
+
+
+    const grandparent = document.querySelector('#grandparent');
+    const parent = document.querySelector('#parent');
+    const child = document.querySelector('#child');
+
+    grandparent.addEventListener('click', function(e) {
+        alert(`Grandparent is clicked. Target: ${e.target.id}, This: ${this.id}`);
+    }, true);
+
+    parent.addEventListener('click', function(e){
+        alert(`Parent is clicked. Target: ${e.target.id}, This: ${this.id}`);
+    }, true);
+
+    child.addEventListener('click', function(e) {
+        alert(`Child is clicked. Target: ${e.target.id}, This: ${this.id}`);
+    });
+
 </script>
 </html>
