@@ -62,8 +62,6 @@ promisefour
 })
 .finally( () =>{
     //console.log("The promise is either resolved or rejected")
-
-
 }
 
 )
