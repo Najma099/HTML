@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <input type="number">
+        <p id="disp">
+
+        </p>
+    </div>
+    <scipt>
+        
+        class InsuffiecientBal extends Error {
+            constructor(message) {
+                supper(message);
+                this.name = "Insufficient balance";
+            }
+        }
+        let withdraw = 200;
+        let balance = 800
+        try {
+            if(withdraw > balance) {
+                throw new InsuffiecientBal("Insufficient Balance");
+            }
+            else {
+                console.log("Withdraw Successful");
+            }
+        } catch (error) {
+            console.log(error.name);
+            console.log(error.message);
+        }
+    </scipt>
+</body>
+</html>
