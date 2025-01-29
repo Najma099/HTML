@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <p id="demo">
+        <p id="msg">
+
+        </p>
+    </p>
+    <script>
+        const str = `{name: "Najma"}`
+        try {
+            const object = JSON.parse(str);
+            document.querySelector("#msg").innerHTML = "Parsed Well...."
+        } catch (error) {
+            document.querySelector('#msg').innerHTML = error.message;
+            document.querySelector('#demo').innerHTML = error.name;
+        }
+    </script>
+</body>
+
+</html>
