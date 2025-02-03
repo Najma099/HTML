@@ -4,8 +4,8 @@ class InsuffiecientBal extends Error {
         this.name = "Insufficient balance";
     }
 }
-let withdraw = 200;
-let balance = 800
+let withdraw = 1000;
+let balance = 800;
 try {
     if(withdraw > balance) {
         throw new InsuffiecientBal("Insufficient Balance");
