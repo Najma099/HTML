@@ -23,9 +23,9 @@ app.post("/new-convo", (req, res) => {
     res.send(`Hello ${name}, your message is: ${message}`); 
 })
 
-app.get("/new-convo", (req, res) => {
-    res.send("Hey Najma! This is /new-convo route.");
-});
+// app.get("/new-convo", (req, res) => {
+//     res.send("Hey Najma! This is /new-convo route.");
+// });
 
 
 app.post("/conversation", (req, res) => {
