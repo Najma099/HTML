@@ -8,11 +8,10 @@ const schema = zod.object({
 
 app.post("/t", (req, res) => {
   const response = schema.safeParse(req.body);
-
   if (!response.success) {
     return res.status(400).send({
       message: "Invalid input",
-      error: response.error.format(),
+      error: response.error,
     });
   }
 

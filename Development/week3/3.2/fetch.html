@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Najma's Page</title>
+    </head>
+    <body>
+        <script>
+            async function getData() {
+                // fetch(
+                //     "https://fakerapi.it/api/v2/persons?_quantity=1&_gender=female&_birthday_start=2005-01-01",
+                // )
+                //     .then((response) => {
+                //         return response.json();
+                //     })
+                //     .then((data) => {
+                //         console.log(data);
+                //     })
+                //     .catch((err) => {
+                //         console.log("Error:", err);
+                //     });
+                const fetchData = await fetch(
+                    "https://fakerapi.it/api/v2/persons?_quantity=1&_gender=female&_birthday_start=2005-01-01",
+                );
+                const data = await fetchData.json();
+                console.log(data);
+            }
+        </script>
+        <button onclick="getData()">button</button>
+    </body>
+</html>
