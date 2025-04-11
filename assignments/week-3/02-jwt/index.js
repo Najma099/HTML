@@ -26,7 +26,7 @@ function signJwt(username, password) {
   if(!response.success) {
     return null;
   }
-  return res.send(jwt.sign({ username, password }, jwtPassword));
+  return jwt.sign({ username, password }, jwtPassword);
 }
 
 /**
@@ -39,6 +39,13 @@ function signJwt(username, password) {
  */
 function verifyJwt(token) {
     // Your code here
+    try{
+      jwt.verify(token,jwtPassword);
+      return true;
+    } 
+    catch(err) {
+      return false;
+    }
 }
 
 /**
@@ -50,6 +57,12 @@ function verifyJwt(token) {
  */
 function decodeJwt(token) {
     // Your code here
+  try{
+    let payload = jwt.decode(token);
+    return payload;
+  }catch(err) {
+    return false;
+  }
 }
 
 
