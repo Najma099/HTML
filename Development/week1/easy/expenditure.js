@@ -27,4 +27,4 @@ function calculateTotalSpentByCategory(transactions) {
   return categories;
 }
   
-  module.exports = calculateTotalSpentByCategory;
+module.exports = calculateTotalSpentByCategory;

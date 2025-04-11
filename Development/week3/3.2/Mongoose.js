@@ -7,9 +7,7 @@ const User = mongoose.model("User", {
   password: String,
 });
 
-mongoose.connect(
-  "mongodb+srv://Najma:Ru2pa4mo6da8@najma.pq370co.mongodb.net/newdb",
-);
+mongoose.connect("xxx");
 
 app.use(express.json());
 app.post("/signin", async (req, res) => {
