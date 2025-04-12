@@ -5,10 +5,11 @@ const router = Router();
 // Admin Routes
 router.post('/signup', (req, res) => {
     // Implement admin signup logic
+    
 });
 
 router.post('/signin', (req, res) => {
-    // Implement admin signup logic
+    // Implement admin signin logic
 });
 
 router.post('/courses', adminMiddleware, (req, res) => {
