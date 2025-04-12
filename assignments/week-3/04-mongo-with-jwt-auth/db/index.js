@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-
+import {  isPasswordCorrect } from "../utils/password.js"
 // Connect to MongoDB
 mongoose.connect('your-mongodb-url');
 
