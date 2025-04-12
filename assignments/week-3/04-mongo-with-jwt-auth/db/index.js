@@ -42,7 +42,10 @@ const UserSchema = new mongoose.Schema({
   Courses: {
     type: mongoose.Schema.ObjectId,
     ref: Course
-  }  
+  },
+  refreshTokens:{
+    type: String
+  }
 });
 userSchema.methods.checkPassword = async function(userPassword) {
     return await isPasswordCorrect(userPassword, this.password);

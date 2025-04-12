@@ -122,16 +122,92 @@ router.post('/signin', async(req, res) => {
   }
 });
 
-router.get('/courses', (req, res) => {
+router.get('/courses', async(req, res) => {
     // Implement listing all courses logic
+    try{
+      const course = await Course.find({});
+      return res.status().json({
+        ok: true,
+        message: "All the available Courses",
+        course
+      });
+    }
+    catch(err) {
+      concole.log(`Error while fetching the courses`)
+      res.status().json({
+        ok:false,
+        message: err?.message || "Unexpcted error occurred while getting all the available courses"
+      })
+    }
 });
 
-router.post('/courses/:courseId', userMiddleware, (req, res) => {
+router.post('/courses/:courseId', userMiddleware, async(req, res) => {
     // Implement course purchase logic
+  try{
+    const user = req.user;
+    const courseId = req.params.courseId;
+    const course = await Course.findById(courseId);
+    if(!course) {
+      return res.status(500).send({
+        ok: false,
+        message: "Invalid CourseId"
+      })
+    } 
+    const updatedUser = await User.findByIdAndUpdate(
+      user._id,
+      {
+        $addToset: {
+          Courses: courseId
+        }
+      },
+      {
+        new: true,
+      }
+    ).select("-password -refreshToken"); 
+    
+    res.status(200).send({
+      ok: true,
+      message: "Course Purchesed Successfully!!!"
+    })
+  }
+  catch(err) {
+    console.error(`Error purchasing the data${err}`);
+    res.status(400).send({
+      ok: false,
+      message: err?.message || "Unexpected error while purchasing the course",
+      err
+    })
+  }  
+
 });
 
-router.get('/purchasedCourses', userMiddleware, (req, res) => {
-    // Implement fetching purchased courses logic
+router.get('/purchasedCourses', userMiddleware, async (req, res) => {
+  try {
+    const user = req.user;
+
+    const dbUser = await User.findById(user._id).populate("Courses", "-__v");
+    
+    if (!dbUser) {
+      return res.status(400).json({
+        ok: false,
+        message: "Error while fetching data from database!"
+      });
+    }
+
+    res.status(200).json({
+      ok: true,
+      message: "Successfully got all the purchased courses",
+      courses: dbUser.courses
+    });
+
+  } catch (err) {
+    console.error(`Error while fetching purchased courses: ${err}`);
+    res.status(500).json({
+      ok: false,
+      message: err?.message || "Unexpected error while fetching all the purchased data",
+      err
+    });
+  }
 });
 
 module.exports = router
