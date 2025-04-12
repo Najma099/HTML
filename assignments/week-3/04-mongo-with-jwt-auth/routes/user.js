@@ -5,7 +5,7 @@ const { Course, User } = require("../db");
 const handleZodError = require("../utils/validateNsend.js");
 const { Schemaobj } = require("../utils/zodvalidate");
 const bcrypt = require('bcrypt');
-const { accessTokens, refreshToken } = require("../utils/tokens.js");
+const { accessTokens, refreshToken} = require("../utils/tokens.js");
 
 
 // User Routes
@@ -133,7 +133,7 @@ router.get('/courses', async(req, res) => {
       });
     }
     catch(err) {
-      concole.log(`Error while fetching the courses`)
+      console.log(`Error while fetching the courses`)
       res.status().json({
         ok:false,
         message: err?.message || "Unexpcted error occurred while getting all the available courses"
@@ -156,7 +156,7 @@ router.post('/courses/:courseId', userMiddleware, async(req, res) => {
     const updatedUser = await User.findByIdAndUpdate(
       user._id,
       {
-        $addToset: {
+        $addToSet: {
           Courses: courseId
         }
       },
@@ -184,7 +184,6 @@ router.post('/courses/:courseId', userMiddleware, async(req, res) => {
 router.get('/purchasedCourses', userMiddleware, async (req, res) => {
   try {
     const user = req.user;
-
     const dbUser = await User.findById(user._id).populate("Courses", "-__v");
     
     if (!dbUser) {
@@ -197,7 +196,7 @@ router.get('/purchasedCourses', userMiddleware, async (req, res) => {
     res.status(200).json({
       ok: true,
       message: "Successfully got all the purchased courses",
-      courses: dbUser.courses
+      courses: dbUser.Courses
     });
 
   } catch (err) {
