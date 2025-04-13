@@ -4,209 +4,198 @@ const userMiddleware = require("../middleware/user");
 const { Course, User } = require("../db");
 const handleZodError = require("../utils/validateNsend.js");
 const { Schemaobj } = require("../utils/zodvalidate");
-const bcrypt = require('bcrypt');
-const { accessTokens, refreshToken} = require("../utils/tokens.js");
+const bcrypt = require("bcrypt");
+const { accessTokens, refreshToken } = require("../utils/tokens.js");
 
-
-// User Routes
-router.post('/signup', async(req, res) => {
-  // Implement user signup logic
-    
-  //Zod Validation
+// User Signup
+router.post("/signup", async (req, res) => {
   const user = req.body;
+
   const response = Schemaobj.safeParse(user);
   const errorResponse = handleZodError(response, res);
   if (errorResponse) return;
-  
-  //if username already exits 
-  const exits = await User.findOne({username: user.username });
-  if(exits) {
-    return res.status(409).send('Username Already exits');
-  }
-  
-  //hash the password and save it in database
+
   try {
-    const hashedPassword = await bcrypt.hash(user.password,10);
-    
-    const createdUser = await User.create({
-      username: user.username,
-      password: hashedPassword
-    });
-    const newuser = await User.findById(createdUser._id).select("-password -_id");
-    if(!newuser) {
-      res.status(500).json({
-        ok:false,
-        message:"User was not created "
+    const exists = await User.findOne({ username: user.username });
+    if (exists) {
+      return res.status(409).json({
+        ok: false,
+        message: "Username already exists",
       });
     }
+
+    const hashedPassword = await bcrypt.hash(user.password, 10);
+    const createdUser = await User.create({
+      username: user.username,
+      password: hashedPassword,
+    });
+
+    const newUser = await User.findById(createdUser._id).select("-password -_id");
+    if (!newUser) {
+      return res.status(500).json({
+        ok: false,
+        message: "User was not created",
+      });
+    }
+
     return res.status(201).json({
       ok: true,
       message: "User created successfully",
-      user: newuser
+      user: newUser,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      ok: false,
+      message: "Something went wrong",
+      error: err.message,
     });
   }
-  catch(err) {
-    return res.status(500).json({
-        ok: false,
-        message: "Something went wrong",
-        error: err.message
-   });
-  } 
 });
 
-router.post('/signin', async(req, res) => {
-    // Implement user signup logic
-  try{
-    const user= req.body;
+// User Signin
+router.post("/signin", async (req, res) => {
+  try {
+    const user = req.body;
+
     const response = Schemaobj.safeParse(user);
     const errorResponse = handleZodError(response, res);
     if (errorResponse) return;
-    
-    //lets check if user exits
-    const userexists = await User.findOne({ username: user.username });
-    if(!userexists) {
-      return res.status(404).send({
-        ok:false,
-        message: "User doesn't exits"
-      });
-    }
-    
-    //match the hashedPassword
-    const checkPass = await userexists.checkPassword(user.password);
-    if(!checkPass) {
-      return res.status().send({
+
+    const userExists = await User.findOne({ username: user.username });
+    if (!userExists) {
+      return res.status(404).json({
         ok: false,
-        message:"Password is incorrect. Please try again"
+        message: "User doesn't exist",
       });
     }
-      
-    //access token
-    let accesstoken = accessTokens({
-      id: userexists._id,
-      username: userexists.username,
-      role: "user"
+
+    const isPasswordCorrect = await userExists.checkPassword(user.password);
+    if (!isPasswordCorrect) {
+      return res.status(401).json({
+        ok: false,
+        message: "Password is incorrect. Please try again",
+      });
+    }
+
+    const access_token = accessTokens({
+      id: userExists._id,
+      username: userExists.username,
+      role: "User",
     });
-    
-    let refreshtoken = refreshToken({
-      id: userexists._id,
-      username: userexists.username,
-      role: "user"
+
+    const refresh_token = refreshToken({
+      id: userExists._id,
+      username: userExists.username,
+      role: "User",
     });
-    userexists.refreshToken = refreshtoken;
-    await userexists.save();
-    
-    const options= {
+
+    userExists.refreshToken = refresh_token;
+    await userExists.save();
+
+    const options = {
       httpOnly: true,
       secure: true,
-      sameSite: "lax"
-    }
-    
+      sameSite: "lax",
+    };
+
     res
       .status(200)
-      .cookie("accesstoken", accesstoken, options)
-      .cookie("refreshtoken", refreshtoken, options)
+      .cookie("accessToken", access_token, options)
+      .cookie("refreshToken", refresh_token, options)
       .json({
         ok: true,
-        message: `${userexists.username} logged in successfully`,
-        accesstoken,
-        refreshtoken
-      })
-  }
-  catch(err) {
-    console.log(`Error while Signin ${err}`);
-    res.status(500).send({
+        message: `${userExists.username} logged in successfully`,
+        accessToken: access_token,
+        refreshToken: refresh_token,
+      });
+  } catch (err) {
+    console.log(`Error while signing in: ${err}`);
+    res.status(500).json({
       ok: false,
-      message: err?.message || "Something unexpected happened",
-      err
+      message: err?.message || "Unexpected error during signin",
+      err,
     });
   }
 });
 
-router.get('/courses', async(req, res) => {
-    // Implement listing all courses logic
-    try{
-      const course = await Course.find({});
-      return res.status().json({
-        ok: true,
-        message: "All the available Courses",
-        course
-      });
-    }
-    catch(err) {
-      console.log(`Error while fetching the courses`)
-      res.status().json({
-        ok:false,
-        message: err?.message || "Unexpcted error occurred while getting all the available courses"
-      })
-    }
+// Get all Courses
+router.get("/courses", async (req, res) => {
+  try {
+    const courses = await Course.find({});
+    return res.status(200).json({
+      ok: true,
+      message: "All available courses",
+      courses,
+    });
+  } catch (err) {
+    console.error(`Error while fetching courses: ${err}`);
+    res.status(500).json({
+      ok: false,
+      message: err?.message || "Unexpected error occurred while getting courses",
+    });
+  }
 });
 
-router.post('/courses/:courseId', userMiddleware, async(req, res) => {
-    // Implement course purchase logic
-  try{
+// Purchase a Course
+router.post("/courses/:courseId", userMiddleware, async (req, res) => {
+  try {
     const user = req.user;
     const courseId = req.params.courseId;
-    const course = await Course.findById(courseId);
-    if(!course) {
-      return res.status(500).send({
-        ok: false,
-        message: "Invalid CourseId"
-      })
-    } 
-    const updatedUser = await User.findByIdAndUpdate(
-      user._id,
-      {
-        $addToSet: {
-          Courses: courseId
-        }
-      },
-      {
-        new: true,
-      }
-    ).select("-password -refreshToken"); 
-    
-    res.status(200).send({
-      ok: true,
-      message: "Course Purchesed Successfully!!!"
-    })
-  }
-  catch(err) {
-    console.error(`Error purchasing the data${err}`);
-    res.status(400).send({
-      ok: false,
-      message: err?.message || "Unexpected error while purchasing the course",
-      err
-    })
-  }  
 
+    const course = await Course.findById(courseId);
+    if (!course) {
+      return res.status(404).json({
+        ok: false,
+        message: "Invalid Course ID",
+      });
+    }
+
+    await User.findByIdAndUpdate(
+      user._id,
+      { $addToSet: { Courses: courseId } },
+      { new: true }
+    ).select("-password -refreshToken");
+
+    res.status(200).json({
+      ok: true,
+      message: "Course purchased successfully!",
+    });
+  } catch (err) {
+    console.error(`Error purchasing the course: ${err}`);
+    res.status(400).json({
+      ok: false,
+      message: err?.message || "Unexpected error during course purchase",
+      err,
+    });
+  }
 });
 
-router.get('/purchasedCourses', userMiddleware, async (req, res) => {
+// Get Purchased Courses
+router.get("/purchasedCourses", userMiddleware, async (req, res) => {
   try {
     const user = req.user;
     const dbUser = await User.findById(user._id).populate("Courses", "-__v");
-    
+
     if (!dbUser) {
       return res.status(400).json({
         ok: false,
-        message: "Error while fetching data from database!"
+        message: "Could not fetch user data from database",
       });
     }
 
     res.status(200).json({
       ok: true,
-      message: "Successfully got all the purchased courses",
-      courses: dbUser.Courses
+      message: "Successfully fetched purchased courses",
+      courses: dbUser.Courses,
     });
-
   } catch (err) {
     console.error(`Error while fetching purchased courses: ${err}`);
     res.status(500).json({
       ok: false,
-      message: err?.message || "Unexpected error while fetching all the purchased data",
-      err
+      message: err?.message || "Unexpected error while fetching purchased courses",
+      err,
     });
   }
 });
 
-module.exports = router
+module.exports = router;

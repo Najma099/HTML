@@ -1,154 +1,165 @@
 const { Router } = require("express");
 const adminMiddleware = require("../middleware/admin");
-const router = Router();
 const Schemaobj = require("../utils/zodvalidate");
 const handleZodError = require("../utils/validateNsend");
 const bcrypt = require('bcrypt');
-const { accessToken,refreshToken } = require("../utils/tokens");
-const {AdminSchema ,  CourseSchema} = require("../db/index.js")
-const { Course, User } = require("../db");
-// Admin Routes
+const { accessToken, refreshToken } = require("../utils/tokens");
+const { Admin, Course, User } = require("../db");
 
+const router = Router();
 
-router.post('/signup', async(req, res) => {
-    // Implement admin signup logic
+// Admin Signup
+router.post('/signup', async (req, res) => {
   const user = req.body;
   const response = Schemaobj.safeParse(user);
   const result = handleZodError(response, res);
   if (result) return;
-  
-  //if the user exists in database
-  const newUser = await Admin.findOne({username: user.username });
-  if(newUser) {
-    return res.status().send({
-      ok: false,
-      message: "The Username already exists"
-    })
-  };
-  
-  //hash the password
-  try{
-    const hashedpass = bcrypt.hash(password);
-    const userdb = await Admin.create({
-      username: user.username,
-      password: hashedpass
-    })
-    const find = await Admin.findById(userdb._id).select("-password -_id");
-    if(!find) {
-      return res.status().send({
+
+  try {
+    const existingUser = await Admin.findOne({ username: user.username });
+    if (existingUser) {
+      return res.status(409).send({
         ok: false,
-        message: "Error in creating Admin"
-      })
+        message: "The username already exists",
+      });
     }
+
+    const hashedPassword = await bcrypt.hash(user.password, 10);
+    const createdAdmin = await Admin.create({
+      username: user.username,
+      password: hashedPassword,
+    });
+
+    const find = await Admin.findById(createdAdmin._id).select("-password -_id");
+    if (!find) {
+      return res.status(500).send({
+        ok: false,
+        message: "Error in creating admin",
+      });
+    }
+
     res.status(200).send({
       ok: true,
-      message:"Admin created Successfully",
-      find
-    })
-  }
-  catch(err) {
-    console.error(`Unsuccess in creating Admin ${err}`);
-    res.send({
+      message: "Admin created successfully",
+      admin: find,
+    });
+  } catch (err) {
+    console.error(`Admin creation failed: ${err}`);
+    res.status(500).send({
       ok: false,
-      message: err?.message || "Internal server issue"
-    })
+      message: err?.message || "Internal server issue",
+    });
   }
 });
 
-
-router.post('/signin', async(req, res) => {
-    // Implement admin signin logic
+// Admin Signin
+router.post('/signin', async (req, res) => {
   const user = req.body;
-  const response = Schemaobj(user);
-  const responseError = handleZodError(response, res);
-  if (responseError) return;
-  
-  try{
+  const response = Schemaobj.safeParse(user);
+  const result = handleZodError(response, res);
+  if (result) return;
+
+  try {
     const newAdmin = await Admin.findOne({ username: user.username });
-    if(!newAdmin) {
-      return res.status().send({
-        ok: true,
-        message: "Invalid username. No such username exits"
-      })
-    }
-    
-    //password matching
-    const pass = await newAdmin.checkPassword(user.password);
-    if(!pass) {
-      return res.status.send({
+    if (!newAdmin) {
+      return res.status(401).send({
         ok: false,
-        message:"invalid credencials. Please try again!"
-      })
+        message: "Invalid username. No such username exists",
+      });
     }
-    
+
+    const isPasswordMatch = await bcrypt.compare(user.password, newAdmin.password);
+    if (!isPasswordMatch) {
+      return res.status(401).send({
+        ok: false,
+        message: "Invalid credentials. Please try again!",
+      });
+    }
+
     const accesstoken = accessToken({
       id: newAdmin._id,
       username: newAdmin.username,
-      role: "Admin"
+      role: "admin",
     });
+
     const refreshtoken = refreshToken({
       id: newAdmin._id,
       username: newAdmin.username,
-      role: "Admin"
+      role: "admin",
     });
-    
-    newUser.refreshTokens = refreshtoken;
-    await newUser.save();
-    res.status().send({
-      ok: true,
-      message: "Successfully Signed in!"
-    })
-  }
-  catch(err) {
-    console.error(`Error while signing in! ${err}`);
-    res.status().send({
+
+    newAdmin.refreshToken = refreshtoken;
+    await newAdmin.save();
+
+    res
+      .cookie("refreshToken", refreshtoken, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "lax",
+      })
+      .status(200)
+      .send({
+        ok: true,
+        message: "Successfully signed in",
+        accesstoken,
+      });
+  } catch (err) {
+    console.error(`Error while signing in: ${err}`);
+    res.status(500).send({
       ok: false,
-      message: err?.message || "Couldnt signin in due to server issue",
-      err
+      message: err?.message || "Couldn't sign in due to server issue",
     });
   }
 });
 
-router.post('/courses', adminMiddleware, async(req, res) => {
-    // Implement course creation logic
+// Create Course
+router.post('/courses', adminMiddleware, async (req, res) => {
   const data = req.body;
-  const newCourse = await Course.findOne({ data });
-  if(newCourse) {
-    return res.status().send({
+
+  const existingCourse = await Course.findOne({ title: data.title }); // assuming 'title' is unique
+  if (existingCourse) {
+    return res.status(409).send({
       ok: false,
-      message: "This Course already exits in the database!"
+      message: "This course already exists in the database!",
     });
-  };
-  
-  const coursedb = await Course.create(data);
-  const find = await Course.findById(coursedb._id);
-  if(!find) {
-    return res.status().send({
-      ok: false,
-      message:"Couldnt create the Course due to server down!"
-    })
   }
-  res.status(200).send({
-    ok: true,
-    message: "Course created Successfully"
-  })
+
+  try {
+    const newCourse = await Course.create(data);
+    const find = await Course.findById(newCourse._id);
+    if (!find) {
+      return res.status(500).send({
+        ok: false,
+        message: "Couldn't create the course due to server issues!",
+      });
+    }
+    res.status(200).send({
+      ok: true,
+      message: "Course created successfully",
+      course: find,
+    });
+  } catch (err) {
+    res.status(500).send({
+      ok: false,
+      message: err?.message || "Internal error while creating course",
+    });
+  }
 });
 
-router.get('/courses', adminMiddleware, async(req, res) => {
-    // Implement fetching all courses logic
-  try{
-    const course = await Course.find({});
-    res.status().json({
+// Get All Courses
+router.get('/courses', adminMiddleware, async (req, res) => {
+  try {
+    const courses = await Course.find({});
+    res.status(200).json({
       ok: true,
-      message: "Successfully fetched all the courses:",
-      course
-    })
-  }
-  catch(err) {
-    res.status().send({
+      message: "Successfully fetched all courses",
+      courses,
+    });
+  } catch (err) {
+    res.status(500).send({
       ok: false,
-      message: err?.message || "Couldn't fetched all the course"
-    })
+      message: err?.message || "Couldn't fetch courses",
+    });
   }
 });
 

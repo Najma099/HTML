@@ -1,7 +1,9 @@
 const mongoose = require('mongoose');
 import {  isPasswordCorrect } from "../utils/password.js"
-// Connect to MongoDB
-mongoose.connect('your-mongodb-url');
+mongoose.connect(process.env.MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 // Define schemas
 const AdminSchema = new mongoose.Schema({
@@ -36,12 +38,12 @@ const UserSchema = new mongoose.Schema({
     index: true
   },
   password: {
-    type: string,
+    type: String,
     required: true
   },
   Courses: {
     type: mongoose.Schema.ObjectId,
-    ref: Course
+    ref: "Course"
   },
   refreshTokens:{
     type: String
