@@ -80,16 +80,16 @@ router.post("/signin", async (req, res) => {
     const access_token = accessToken({
       id: userExists._id,
       username: userExists.username,
-      role: "User",
+      role: "user",
     });
 
     const refresh_token = refreshToken({
       id: userExists._id,
       username: userExists.username,
-      role: "User",
+      role: "user",
     });
 
-    userExists.refreshToken = refresh_token;
+    userExists.refreshTokens = refresh_token;
     await userExists.save();
 
     const options = {

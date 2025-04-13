@@ -1,5 +1,6 @@
 function handleZodError(result, res) {
   if (!result.success) {
+    //console.error("Validation failed:", result.error);
     const errors = result.error.errors.map(err => ({
       field: err.path.join('.'),
       message: err.message

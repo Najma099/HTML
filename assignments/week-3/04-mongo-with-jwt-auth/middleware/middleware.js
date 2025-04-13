@@ -1,17 +1,18 @@
 import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
 import { Admin, User } from "../db/index.js";
-
-dotenv.config();
+dotenv.config({
+  path:"../.env"
+});
 const JwtSecret = process.env.ACCESS_TOKEN_SECRET;
 
 async function middleware(req, res, next) {
   try{
-    const authHeader = req.headers["authorization"];
-    const token = authHeader?.replace("Bearer ", "").trim();
+    const token = req.headers["authorization"];
+    //const token = authHeader?.replace("Bearer", "").trim();
     
     if(!token) {
-      res.clearCookies("refreshToken",{
+      res.clearCookie("refreshToken",{
         httpOnly: true,
         Secure: true,
         sameSite: "lax"
@@ -23,16 +24,16 @@ async function middleware(req, res, next) {
     };
     
     const decoded = jwt.verify(token, JwtSecret);
-  
+    //console.log(decoded);
     let user;
-    if(decoded.role == 'Admin') {
-      user = await Admin.findById(decoded._id).select("-password -refreshedToken");
+    if(decoded.role == "admin") {
+      user = await Admin.findById(decoded.id).select("-password -refreshedToken");
     }
-    else if(decoded.role == 'User') {
-      user = await User.findById(decoded._id).select("-password -refreshedToken");
+    else if(decoded.role == "user") {
+      user = await User.findById(decoded.id).select("-password -refreshedToken");
     }
     else {
-      res.clearCookies("refeshedToken", {
+      res.clearCookie("refeshedToken", {
         httpOnly: true,
         Secure: true,
         sameSite: "lax"
@@ -55,7 +56,7 @@ async function middleware(req, res, next) {
   }
   catch(err) {
     console.error(`Error verifing the token ${err}`);
-    res.clearCookies("refreshToken", {
+    res.clearCookie("refreshToken", {
       httpOnly: true,
       secure: true,
       SameSite: "lax"

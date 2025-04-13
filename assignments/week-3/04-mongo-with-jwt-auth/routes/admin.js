@@ -1,3 +1,4 @@
+
 import { Router } from "express";
 import middleware from "../middleware/middleware.js";
 import Schemaobj from "../utils/zodvalidate.js";
@@ -5,11 +6,13 @@ import handleZodError from "../utils/validateNsend.js";
 import bcrypt from 'bcrypt';
 import { accessToken, refreshToken } from "../utils/tokens.js";
 import { Admin, Course, User } from "../db/index.js";
-
 const router = Router();
+
+
 
 // Admin Signup
 router.post('/signup', async (req, res) => {
+  console.log(req.body);
   const user = req.body;
   const response = Schemaobj.safeParse(user);
   const result = handleZodError(response, res);
@@ -88,7 +91,7 @@ router.post('/signin', async (req, res) => {
       role: "admin",
     });
 
-    newAdmin.refreshToken = refreshtoken;
+    newAdmin.refreshTokens = refreshtoken;
     await newAdmin.save();
 
     res
@@ -102,6 +105,7 @@ router.post('/signin', async (req, res) => {
         ok: true,
         message: "Successfully signed in",
         accesstoken,
+        refreshtoken
       });
   } catch (err) {
     console.error(`Error while signing in: ${err}`);
@@ -147,7 +151,7 @@ router.post('/courses', middleware, async (req, res) => {
 });
 
 // Get All Courses
-router.get('/courses', middleware, async (req, res) => {
+router.get('/allcourses', middleware, async (req, res) => {
   try {
     const courses = await Course.find({});
     res.status(200).json({
