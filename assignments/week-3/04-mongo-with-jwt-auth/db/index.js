@@ -1,9 +1,12 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 import {  isPasswordCorrect } from "../utils/password.js"
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
+
+import dotenv from 'dotenv';
+dotenv.config();
 
 // Define schemas
 const AdminSchema = new mongoose.Schema({
@@ -24,7 +27,7 @@ const AdminSchema = new mongoose.Schema({
     }
 });
 
-adminSchema.methods.checkPassword = async function(userPassword) {
+AdminSchema.methods.checkPassword = async function(userPassword) {
   return await isPasswordCorrect(userPassword, this.password);
 }
 
@@ -49,7 +52,7 @@ const UserSchema = new mongoose.Schema({
     type: String
   }
 });
-userSchema.methods.checkPassword = async function(userPassword) {
+UserSchema.methods.checkPassword = async function(userPassword) {
     return await isPasswordCorrect(userPassword, this.password);
 }
 
@@ -76,8 +79,4 @@ const Admin = mongoose.model('Admin', AdminSchema);
 const User = mongoose.model('User', UserSchema);
 const Course = mongoose.model('Course', CourseSchema);
 
-module.exports = {
-    Admin,
-    User,
-    Course
-}
+export {  Admin, User, Course };
