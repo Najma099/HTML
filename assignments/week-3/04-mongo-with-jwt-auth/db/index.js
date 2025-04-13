@@ -1,12 +1,20 @@
 import mongoose from 'mongoose';
 import {  isPasswordCorrect } from "../utils/password.js"
-mongoose.connect(process.env.MONGODB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
-
 import dotenv from 'dotenv';
-dotenv.config();
+dotenv.config({
+  path:"../.env"
+});
+import express from "express";
+const app = express();
+
+
+mongoose.connect(process.env.MONGODB_URI)
+  .then(() => {
+    console.log("Connected to MongoDB");
+  })
+  .catch(err => {
+    console.error("Error connecting to MongoDB", err);
+});
 
 // Define schemas
 const AdminSchema = new mongoose.Schema({
@@ -80,3 +88,18 @@ const User = mongoose.model('User', UserSchema);
 const Course = mongoose.model('Course', CourseSchema);
 
 export {  Admin, User, Course };
+
+import AdminRoute from "../routes/admin.js";
+app.use("/api/admin", AdminRoute);
+
+import userRoute from "../routes/user.js";
+app.use("/api/user", userRoute);
+
+app.listen(3000, async () => {
+    try {
+        console.log("Server is running on: https://localhost:3000/");     
+    } catch (error) {
+        console.error(error);
+        process.exit(1);
+    }
+})
