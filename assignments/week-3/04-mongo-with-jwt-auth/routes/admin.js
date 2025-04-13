@@ -1,10 +1,10 @@
-const { Router } = require("express");
-const adminMiddleware = require("../middleware/admin");
-const Schemaobj = require("../utils/zodvalidate");
-const handleZodError = require("../utils/validateNsend");
-const bcrypt = require('bcrypt');
-const { accessToken, refreshToken } = require("../utils/tokens");
-const { Admin, Course, User } = require("../db");
+import { Router } from "express";
+import middleware from "../middleware/middleware.js";
+import Schemaobj from "../utils/zodvalidate.js";
+import handleZodError from "../utils/validateNsend.js";
+import bcrypt from 'bcrypt';
+import { accessToken, refreshToken } from "../utils/tokens.js";
+import { Admin, Course, User } from "../db/index.js";
 
 const router = Router();
 
@@ -113,7 +113,7 @@ router.post('/signin', async (req, res) => {
 });
 
 // Create Course
-router.post('/courses', adminMiddleware, async (req, res) => {
+router.post('/courses', middleware, async (req, res) => {
   const data = req.body;
 
   const existingCourse = await Course.findOne({ title: data.title }); // assuming 'title' is unique
@@ -147,7 +147,7 @@ router.post('/courses', adminMiddleware, async (req, res) => {
 });
 
 // Get All Courses
-router.get('/courses', adminMiddleware, async (req, res) => {
+router.get('/courses', middleware, async (req, res) => {
   try {
     const courses = await Course.find({});
     res.status(200).json({
@@ -163,4 +163,4 @@ router.get('/courses', adminMiddleware, async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

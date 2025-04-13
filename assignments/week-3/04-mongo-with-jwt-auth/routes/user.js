@@ -1,11 +1,11 @@
-const { Router } = require("express");
+import { Router } from "express" ;
 const router = Router();
-const userMiddleware = require("../middleware/user");
-const { Course, User } = require("../db");
-const handleZodError = require("../utils/validateNsend.js");
-const { Schemaobj } = require("../utils/zodvalidate");
-const bcrypt = require("bcrypt");
-const { accessTokens, refreshToken } = require("../utils/tokens.js");
+import middleware from "../middleware/middleware.js";
+import { Course, User } from "../db/index.js";
+import handleZodError from"../utils/validateNsend.js" ;
+import Schemaobj from "../utils/zodvalidate.js";
+import bcrypt from "bcrypt" ;
+import { accessToken, refreshToken } from "../utils/tokens.js" ;
 
 // User Signup
 router.post("/signup", async (req, res) => {
@@ -77,7 +77,7 @@ router.post("/signin", async (req, res) => {
       });
     }
 
-    const access_token = accessTokens({
+    const access_token = accessToken({
       id: userExists._id,
       username: userExists.username,
       role: "User",
@@ -137,7 +137,7 @@ router.get("/courses", async (req, res) => {
 });
 
 // Purchase a Course
-router.post("/courses/:courseId", userMiddleware, async (req, res) => {
+router.post("/courses/:courseId", middleware, async (req, res) => {
   try {
     const user = req.user;
     const courseId = req.params.courseId;
@@ -152,7 +152,9 @@ router.post("/courses/:courseId", userMiddleware, async (req, res) => {
 
     await User.findByIdAndUpdate(
       user._id,
-      { $addToSet: { Courses: courseId } },
+      { 
+        $addToSet: { Courses: courseId }
+      },
       { new: true }
     ).select("-password -refreshToken");
 
@@ -171,7 +173,7 @@ router.post("/courses/:courseId", userMiddleware, async (req, res) => {
 });
 
 // Get Purchased Courses
-router.get("/purchasedCourses", userMiddleware, async (req, res) => {
+router.get("/purchasedCourses", middleware, async (req, res) => {
   try {
     const user = req.user;
     const dbUser = await User.findById(user._id).populate("Courses", "-__v");
@@ -198,4 +200,4 @@ router.get("/purchasedCourses", userMiddleware, async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

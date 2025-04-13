@@ -16,4 +16,4 @@ function handleZodError(result, res) {
   return null; 
 }
 
-module.exports = handleZodError;
+export default handleZodError;

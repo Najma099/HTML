@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
-const { Admin, User } = require("../db");
+import { Admin, User } from "../db/index.js";
 
 dotenv.config();
 const JwtSecret = process.env.ACCESS_TOKEN_SECRET;
@@ -67,3 +67,5 @@ async function middleware(req, res, next) {
     })
   }
 }
+
+export default middleware;

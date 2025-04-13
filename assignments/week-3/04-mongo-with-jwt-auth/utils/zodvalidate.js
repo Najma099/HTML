@@ -1,15 +1,13 @@
-const zod = require("zod");
+import {z} from "zod";
 
-const Schemaobj = zod.object({
-  username: zod
+const Schemaobj = z.object({
+  username: z
     .string()
     .min(6, "Username must be at least 6 characters")
     .max(10), 
-  password: zod
+  password: z
     .string()
     .min(6, "Password must be at least 6 characters")
 });
 
-module.exports = {
-  Schemaobj
-};
+export default Schemaobj;
