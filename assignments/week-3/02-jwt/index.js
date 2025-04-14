@@ -1,4 +1,4 @@
-const jwt = require('jsonwebtoken');
+import jwt from 'jsonwebtoken';
 const jwtPassword = 'secret';
 const zod = require("zod");
 const schema = zod.object({
@@ -59,7 +59,12 @@ function decodeJwt(token) {
     // Your code here
   try{
     let payload = jwt.decode(token);
-    return payload;
+    if(decoded) {
+      return true
+    }
+    else {
+      return false
+    }
   }catch(err) {
     return false;
   }

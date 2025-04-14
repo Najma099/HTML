@@ -22,7 +22,7 @@ function retrlimitter(req, res, next) {
   }
   
   let numreq = numberOfRequestsForUser[username];
-  if (numreq >= 5) return res.status(429).send("NOT more than 5 req allowed");
+  if (numreq >= 5) return res.status(404).send("NOT more than 5 req allowed");
   numberOfRequestsForUser[username]++;
   next();
 }
@@ -39,5 +39,6 @@ app.get('/user', function(req, res) {
 app.post('/user', function(req, res) {
   res.status(200).json({ msg: 'created dummy user' });
 });
+
 
 module.exports = app;
