@@ -1,5 +1,24 @@
 {
   "dependencies": {
     "express": "^5.1.0"
-  }
+  },
+  "name": "html",
+  "version": "1.0.0",
+  "main": "HTML/Development/week4/4.1/index.js",
+    "scripts": {
+      "start": "node HTML/Development/week4/4.1/index.js"
+    },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Najma099/HTML.git"
+  },
+  "type": "module",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Najma099/HTML/issues"
+  },
+  "homepage": "https://github.com/Najma099/HTML#readme",
+  "description": ""
 }
