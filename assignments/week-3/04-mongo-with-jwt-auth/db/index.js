@@ -92,8 +92,8 @@ export {  Admin, User, Course };
 import AdminRoute from "../routes/admin.js";
 app.use("/api/admin", AdminRoute);
 
-import userRoute from "../routes/user.js";
-app.use("/api/user", userRoute);
+import UserRoute from "../routes/user.js";
+app.use("/api/user", UserRoute);
 
 app.listen(3000, async () => {
     try {
