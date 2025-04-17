@@ -1,48 +1,15 @@
-import { useState } from 'react';
-import './App.css';
 
+import { useState } from "react";
+import './App.css'
+import { CreateTodo } from './components/CreateTodo'
+import { Todos } from './components/todos'
 function App() {
-  const [todo, Settodo] = useState([]);
-  let [newtodo, Setnewtodo] = useState("");
-  
-  function addTodo() {
-    newtodo = newtodo.trim();
-    if (newtodo == "") return;
-    
-    const newItem = {
-      id: Date.now(),
-      text: newtodo
-    };
-    
-    Settodo([...todo, newItem]);
-    Setnewtodo("");
-  }
-  
-  function removeTodo(id) {
-    Settodo(
-      todo.filter((item) => item.id !== id)
-    )
-  }
+  const [todo, setTodo] = useState([]);
   return(
     <>
-      <input type="text" placeholder='Enter your Todo' onChange={(e) => Setnewtodo(e.target.value)} value={newtodo}></input>
-      <button onClick={addTodo}>Add Todo</button>
-      <div>
-        {
-          todo.map((item) => {
-            return(
-              <div key={item.id}>
-                <h3>{item.text}</h3>
-                <button onClick={() => removeTodo(item.id) }>Remove</button>
-              </div>
-            )
-          })
-        }
-      </div>
+      <CreateTodo setTodo={setTodo} todo={todo}></CreateTodo>
+      <Todos todos={todo}></Todos>
     </>
   )
 }
-
-
-
 export default App;
