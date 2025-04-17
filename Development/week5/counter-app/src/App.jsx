@@ -1,13 +1,18 @@
-
+import { useState } from 'react'
 import './App.css'
-import { Header} from './component/Header.jsx'
+
 
 function App() {
-  return(
-    <div>
-      <Header title="HLW"></Header>
-      <Header title="hiii"></Header>
-    </div>
+  const [count, setCount] = useState(0);
+  return (
+    <CustonBtn count = {count} setCount = {setCount} ></CustonBtn>
   )
+}
+
+function CustonBtn(props) {
+  function onClickHandler() {
+    props.setCount(props.count + 1);
+  }
+  return <button onClick = {onClickHandler}>Counter { props.count}</button>
 }
 export default App
