@@ -1,5 +1,5 @@
-import { atom } from "recoil";
-
+import { atom,selector } from "recoil";
+import axios from "axios"
 export const networkAtom = atom({
   key: "networkAtom",
   default: 102,
@@ -20,7 +20,7 @@ export const messagingAtom = atom({
   default: 0,
 });
 
-export const totalMessageSelector = atom({
+export const totalMessageSelector = selector({
   key: "totalMessageSelector",
   value: ({get}) => {
     const networkCount = get(networkAtom);
@@ -28,5 +28,25 @@ export const totalMessageSelector = atom({
     const jobsCount = get(jobsAtom);
     const notificationCount = get(notificationAtom)
     return  networkCount  + messageCount +  jobsCount +  notificationCount
+  }
+})
+
+//Asynchronous data Query:
+export const notification = atom({
+  key: "networkAtom",
+  default: selector({
+    key: "networkAtomSelector",
+    get: async () => {
+      const res = await axios.get("");
+      return res.data;
+    }
+  })
+});
+
+export const totalNotificationSelector = selector({
+  key: "totalNotificationSelector",
+  get: ({get}) => {
+    const allnotification = get(notification);
+    return  allnotification.network +  allnotification.job +  allnotification.messages + allnotification.notifications
   }
 })
