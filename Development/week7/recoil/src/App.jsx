@@ -1,6 +1,6 @@
-import React, { memo, useState } from 'react';
+import React, { memo } from 'react';
 import './App.css';
-import { RecoilRoot, useRecoilValue, useRecoilState } from 'recoil';
+import { RecoilRoot, useRecoilValue,useSetRecoilState } from 'recoil';
 import { countAtom } from './store/atoms/count';
 
 function App() {
@@ -33,7 +33,7 @@ function Countrender() {
 
 // Import memo from React
 const Buttons = memo(() => {
-  const [count, setCount] = useRecoilState(countAtom);
+  const setCount = useSetRecoilState(countAtom);
   return(
     <>
       <button onClick={() => {
