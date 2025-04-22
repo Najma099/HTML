@@ -1,34 +1,45 @@
-import { useState } from 'react';
-import './App.css';
+//without memo
+
+import { useState } from "react";
 
 function App() {
-  const [num, setNum] = useState(0);
+  const [number, setNumber] = useState(1);
   const [count, setCount] = useState(0);
 
-  function change(val) {
-    val = parseInt(val); 
-    if (!isNaN(val)) {
-      const sum = (val * (val + 1)) / 2;
-      setNum(sum);
-    }
+  function slowFibonacci(n) {
+    console.log("Calculating Fibonacci...");
+    if (n <= 1) return n;
+    return slowFibonacci(n - 1) + slowFibonacci(n - 2);
   }
 
-  function changeCount() {
-    setCount((prev) => prev + 1); 
-  }
+  const fib = slowFibonacci(number);
+  
+  //with memo
+  // const fib = useMemo(() => {
+  //    console.log("Calculating Fibonacci...");
+  //    return slowFibonacci(number);
+  //  }, [number]);
+ 
+  //  function slowFibonacci(n) {
+  //    if (n <= 1) return n;
+  //    return slowFibonacci(n - 1) + slowFibonacci(n - 2);
+  //  }
+
 
   return (
     <>
+      <h2>Fibonacci Calculator</h2>
       <input
         type="number"
-        placeholder="Please enter a number"
-        onChange={(e) => {
-          change(e.target.value);
-        }}
+        value={number}
+        onChange={(e) => setNumber(parseInt(e.target.value))}
+        min={0}
       />
-      <p>Calculated Sum: {num}</p>
+      <p>Fibonacci of {number}: {fib}</p>
 
-      <button onClick={changeCount}>Counter: {count}</button>
+      <button onClick={() => setCount((prev) => prev + 1)}>
+        Increment Counter ({count})
+      </button>
     </>
   );
 }
