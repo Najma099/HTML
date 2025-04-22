@@ -1,4 +1,4 @@
-import { atomFamily, RecoilRoot, useRecoilValue } from "recoil";
+import { RecoilRoot, useRecoilValue } from "recoil";
 import todosAtomFamily from './atom.js'
 function App() {
   return(
