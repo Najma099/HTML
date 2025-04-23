@@ -1,5 +1,5 @@
 import express from "express";
-import rootRouter from "./routers/index.js";
+import rootRouter from "./src/routers/index.route.js";
 import cors from "cors";
 import config from "./config.js";
 import { connectDB } from "./db.js";
@@ -11,6 +11,12 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use('/api/v1', rootRouter);
+app.use((req, res) => {
+  res.status(404).json({
+    success: false,
+    message: "Route not found"
+  });
+});
 
 connectDB().then(() => {
   app.listen(config.server.port, () => {
