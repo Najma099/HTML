@@ -12,3 +12,5 @@ router.post("/refresh-token", RefreshedToken);
 router.put("/change-details", Authmiddleware, ChangeDetails);
 router.put("/change-password", Authmiddleware, ChangePassword);
 router.get("/bulk", Authmiddleware, GetUsers);
+
+export default router;

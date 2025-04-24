@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use('/api/v1', rootRouter);
-app.use((req, res) => {
+app.use((err,req, res,next) => {
   res.status(404).json({
     success: false,
     message: "Route not found"

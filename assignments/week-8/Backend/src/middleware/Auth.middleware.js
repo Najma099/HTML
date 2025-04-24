@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import config from "../../config.js";
-import { User } from "../models/User.model,js";
+import { User } from "../models/User.model.js";
 
 async function Authmiddleware(req, res, next) {
   try {
@@ -18,7 +18,7 @@ async function Authmiddleware(req, res, next) {
     }
 
     token = token.split(" ")[1];
-    const decoded = jwt.verify(token, config.jwt);
+    const decoded = jwt.verify(token, config.jwt.secret);
 
     const user = await User.findById(decoded.id).select("-password -refreshedToken");
     if (!user) {
@@ -43,7 +43,7 @@ async function Authmiddleware(req, res, next) {
       secure: true,
       sameSite: 'lax'
     });
-    res.clearCookie("refreshToken", {
+    res.clearCookie("refreshTokens", {
       httpOnly: true,
       secure: true,
       sameSite: 'lax'

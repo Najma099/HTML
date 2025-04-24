@@ -1,5 +1,5 @@
-import { Account } from "../models/Accounts.model";
-import { Transaction } from "../models/Transaction.model";
+import { Account } from "../models/Accounts.model.js";
+import { Transaction } from "../models/Transaction.model.js";
 
 export const Balance = async (req, res) => {
   try{
@@ -7,7 +7,7 @@ export const Balance = async (req, res) => {
     const account = await Account.findOne({ userId});
     if(account) {
       res.status(404).json({
-        success: true,
+        success: false,
         message: "Account not found for the user"
       });
     }
@@ -20,7 +20,7 @@ export const Balance = async (req, res) => {
   catch(err) {
     console.log(`Error while fetching the data ${err}`);
     res.status(500).json({
-      success: true,
+      success: false,
       message: err?.message || "Unexpected error while fetching the balance."
     });
   }
@@ -83,7 +83,7 @@ export const Transfer = async (req, res) => {
     return res.status(200).json({
       success: true,
       message: "Transfer completed successfully.",
-      remaining_balance: senderAccount.balance
+      remainingBalance: senderAccount.balance
     });
 
   } catch (err) {

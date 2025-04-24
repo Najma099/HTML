@@ -1,13 +1,13 @@
 import bcrypt from "bcrypt";
 import { User } from "../models/User.model.js";
-import { accessToken, refreshedToken } from "../utils/jwt.js";
+import { accessToken, refreshedToken } from "../utils/token.js";
 import jwt from "jsonwebtoken";
-import config from "../../config";
+import config from "../../config.js";
 import { UpdateSchema , PasswordSchema} from "../ZodSchema/user.schema.js";
 
 export const SignUp = async (req, res) => {
   try {
-    const find = await User.findOne({ username: req.body.username });
+    const find = await User.findOne({ username: req.user.username });
     if (find) {
       return res.status(400).send({
         success: false,
@@ -15,13 +15,13 @@ export const SignUp = async (req, res) => {
       });
     }
 
-    const hashedPassword = await bcrypt.hash(req.body.password, 10);
+    const hashedPassword = await bcrypt.hash(req.user.password, 10);
 
     const createdUser = await User.create({
-      username: req.body.username,
+      username: req.user.username,
       password: hashedPassword,
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
+      firstName: req.user.firstName,
+      lastName: req.user.lastName,
     });
 
     const newUser = await User.findById(createdUser._id).select("-password -refreshedToken");
@@ -38,7 +38,8 @@ export const SignUp = async (req, res) => {
       message: "User is created successfully!",
       newUser,
     });
-  } catch (err) {
+  } 
+  catch (err) {
     console.error("Signup Error:", err);
     return res.status(500).send({
       success: false,
@@ -49,7 +50,7 @@ export const SignUp = async (req, res) => {
 
 export const SignIn = async (req, res) => {
   try {
-    const existUser = await User.findOne({ username: req.body.username });
+    const existUser = await User.findOne({ username: req.user.username });
     if (!existUser) {
       return res.status(401).send({
         success: false,
@@ -57,7 +58,7 @@ export const SignIn = async (req, res) => {
       });
     }
 
-    const checkPass = await existUser.checkPassword(req.body.password);
+    const checkPass = await existUser.checkPassword(req.user.password);
     if (!checkPass) {
       return res.status(401).send({
         success: false,
@@ -114,7 +115,7 @@ export const RefreshedToken = async (req, res) => {
       });
     }
 
-    const decoded = jwt.verify(refreshToken, config.jwt);
+    const decoded = jwt.verify(refreshToken, config.jwt.secret);
     if (!decoded) {
       return res.status(401).json({
         success: false,
@@ -180,7 +181,7 @@ export const ChangePassword = async (req, res) => {
     }
 
     const user = req.user;
-    const checkPass = await user.checkPassword(req.body.oldpassword);
+    const checkPass = await user.checkPassword(req.user.oldpassword);
     if (!checkPass) {
       return res.status(401).json({
         success: false,
@@ -188,7 +189,7 @@ export const ChangePassword = async (req, res) => {
       });
     }
 
-    const hashedPassword = await bcrypt.hash(req.body.password, 10);
+    const hashedPassword = await bcrypt.hash(req.user.password, 10);
     const updateUser = await User.findByIdAndUpdate(user._id, { password: hashedPassword }, { new: true });
     if (!updateUser) {
       return res.status(500).json({
