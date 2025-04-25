@@ -1,0 +1,10 @@
+/* Reset or set background color globally */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: transparent; /* You can set it to any color, like white or a gradient */
+}
