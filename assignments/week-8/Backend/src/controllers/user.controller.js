@@ -4,6 +4,7 @@ import { accessToken, refreshedToken } from "../utils/token.js";
 import jwt from "jsonwebtoken";
 import config from "../../config.js";
 import { UpdateSchema , PasswordSchema} from "../ZodSchema/user.schema.js";
+import { Account } from "../models/Accounts.model.js";
 
 export const SignUp = async (req, res) => {
   try {
@@ -78,13 +79,16 @@ export const SignIn = async (req, res) => {
 
     existUser.refreshedToken = refreshedTokens;
     await existUser.save();
-
+    
+    const balance = Math.floor(Math.random() * (100000 - 50000 + 1)) + 50000;
+    const newAccount = await Account.create({ user: existUser._id, balance: balance });
+    
     const options = {
       httpOnly: true,
       secure: true,
       sameSite: 'lax',
     };
-
+    
     res
       .status(200)
       .cookie("accessTokens", accessTokens, options)
@@ -94,6 +98,7 @@ export const SignIn = async (req, res) => {
         message: `${existUser.username} logged in successfully`,
         accessToken: accessTokens,
         refreshedToken: refreshedTokens,
+        balance: newAccount.balance
       });
   } catch (err) {
     console.error(`Signin Error: ${err}`);
