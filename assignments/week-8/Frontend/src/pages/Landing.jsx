@@ -1,25 +1,21 @@
-import { Link } from "react-router-dom";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import bg from '../assets/bg.png';
 
-function LandingPage() {
+function Landing() {
   return (
-    <div className="min-h-screen bg-gradient-to-r from-purple-500 to-indigo-600 flex flex-col items-center justify-center text-white">
-      <h1 className="text-4xl font-bold mb-4">Welcome to Our App!</h1>
-      <p className="text-xl mb-8">Explore the app and get started!</p>
-      
-      <div className="flex space-x-4">
-        <Link to="/signup">
-          <button className="px-6 py-3 bg-purple-700 hover:bg-purple-800 text-white font-semibold rounded-lg shadow-lg transition duration-300">
-            Sign Up
-          </button>
-        </Link>
-        <Link to="/signin">
-          <button className="px-6 py-3 bg-indigo-700 hover:bg-indigo-800 text-white font-semibold rounded-lg shadow-lg transition duration-300">
-            Sign In
-          </button>
-        </Link>
+    <div className='p-3 flex flex-col md:flex-row md:gap-8 items-center justify-center min-h-screen font-serif'>
+      <img src={bg} className="h-[500px] w-[600px] object-cover "></img>
+      <div className='p-4'>
+        <h1 className='mb-4 text-6xl text-cyan-600'>Welcome to our App!</h1>
+        <div className='mb-3 text-xl text-gray-500'> Experience fast, easy, and the most secure payments with us.</div>
+        <div className='flex items-center justify-center gap-6'>
+          <Link to="/signUp"><button className='bg-sky-500 p-2 w-24 rounded-2xl transition-all duration-300 cursor-pointer text-white hover:bg-sky-700 shadow-lg'>SignUp</button></Link>
+          <Link to="/signin"><button className='bg-sky-500 p-2 w-24 rounded-2xl transition-all duration-300 cursor-pointer text-white hover:bg-sky-700 shadow-lg'>SignIn</button></Link>
+        </div>
       </div>
     </div>
   );
 }
 
-export default LandingPage;
+export default Landing;
