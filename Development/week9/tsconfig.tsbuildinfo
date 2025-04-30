@@ -1,1 +1,1 @@
-{"root":["./src/a.ts","./src/interface.ts"],"version":"5.8.3"}
+{"root":["./src/a.ts","./src/enum.ts","./src/generic.ts","./src/interface.ts","./src/person.ts","./src/todo.ts"],"version":"5.8.3"}
