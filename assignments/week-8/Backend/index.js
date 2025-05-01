@@ -10,6 +10,10 @@ app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 
+app.get("/test", (req, res) => {
+  res.json({ Key: "HII" });
+});
+
 app.use('/api/v1', rootRouter);
 app.use((err,req, res,next) => {
   res.status(404).json({

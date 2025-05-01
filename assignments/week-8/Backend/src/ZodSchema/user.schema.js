@@ -1,5 +1,9 @@
 import { z } from "zod";
 
+export const UsernameSchema = z.object({
+  username: z.string().email('Invalid email format')
+});
+
 export const UserSchema = z.object({
   username: z.string().email('Invalid email format'),
   password: z.string().min(8, 'Minimum 8 characters'),

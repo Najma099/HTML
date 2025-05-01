@@ -6,9 +6,33 @@ import config from "../../config.js";
 import { UpdateSchema , PasswordSchema} from "../ZodSchema/user.schema.js";
 import { Account } from "../models/Accounts.model.js";
 
+export const CheckUsername = async (req, res) => {
+  const username = req.body;
+  try{
+    const exitsUsername = await User.findOne({username: username });
+    if(exitsUsername) {
+      return res.status(400).json({
+        success:false,
+        message:"Username is already taken"
+      })
+    }
+    res.staus(200).json({
+      success:true,
+      message:"Username is available"
+    })
+  }
+  catch(err) {
+    console.log(err);
+    res.staus(500).json({
+      success: false,
+      message: 'Internal server error'
+    });
+  }
+}
+
 export const SignUp = async (req, res) => {
   try {
-    const find = await User.findOne({ username: req.user.username });
+    const find = await User.findOne({ username: req.body.username });
     if (find) {
       return res.status(400).send({
         success: false,
@@ -33,11 +57,15 @@ export const SignUp = async (req, res) => {
         message: "User was not created. Something went wrong",
       });
     }
-
+    
+    const balance = Math.floor(Math.random() * (100000 - 50000 + 1)) + 50000;
+    const newAccount = await Account.create({ userId: createdUser._id, balance: balance });
+    
     res.status(201).json({
       success: true,
       message: "User is created successfully!",
       newUser,
+      newAccount:balance
     });
   } 
   catch (err) {
@@ -80,9 +108,6 @@ export const SignIn = async (req, res) => {
     existUser.refreshedToken = refreshedTokens;
     await existUser.save();
     
-    const balance = Math.floor(Math.random() * (100000 - 50000 + 1)) + 50000;
-    const newAccount = await Account.create({ user: existUser._id, balance: balance });
-    
     const options = {
       httpOnly: true,
       secure: true,
@@ -97,8 +122,7 @@ export const SignIn = async (req, res) => {
         success: true,
         message: `${existUser.username} logged in successfully`,
         accessToken: accessTokens,
-        refreshedToken: refreshedTokens,
-        balance: newAccount.balance
+        refreshedToken: refreshedTokens
       });
   } catch (err) {
     console.error(`Signin Error: ${err}`);

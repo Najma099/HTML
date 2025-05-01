@@ -4,8 +4,9 @@ import { Transaction } from "../models/Transaction.model.js";
 export const Balance = async (req, res) => {
   try{
     const userId = req.user._id;
-    const account = await Account.findOne({ userId});
-    if(account) {
+    console.log(userId);
+    const account = await Account.findOne({userId: userId});
+    if(!account) {
       res.status(404).json({
         success: false,
         message: "Account not found for the user"

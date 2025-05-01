@@ -32,7 +32,7 @@ async function Authmiddleware(req, res, next) {
         message: "Invalid token. User not found"
       });
     }
-
+    console.log(user);
     req.user = user;
     next();
   }
