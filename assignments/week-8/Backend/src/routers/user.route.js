@@ -5,7 +5,7 @@ import { UserSchema,UsernameSchema, SignInSchema} from "../ZodSchema/user.schema
 import {CheckUsername, RefreshedToken, SignUp, SignIn, ChangeDetails , ChangePassword,GetUsers} from "../controllers/user.controller.js";
 const router = express.Router();
 
-router.post("/check-username",Zodmiddleware(UsernameSchema),CheckUsername)
+router.post("/check-username", Zodmiddleware(UsernameSchema), CheckUsername);
 router.post("/signUp", Zodmiddleware(UserSchema), SignUp);
 router.post("/signin", Zodmiddleware(SignInSchema), SignIn);
 router.post("/refresh-token", RefreshedToken);

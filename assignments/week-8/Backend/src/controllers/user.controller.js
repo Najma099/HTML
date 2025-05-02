@@ -7,28 +7,27 @@ import { UpdateSchema , PasswordSchema} from "../ZodSchema/user.schema.js";
 import { Account } from "../models/Accounts.model.js";
 
 export const CheckUsername = async (req, res) => {
-  const username = req.body;
-  try{
-    const exitsUsername = await User.findOne({username: username });
-    if(exitsUsername) {
+  try {
+    const { username } = req.body;
+    const user = await User.findOne({ username });
+    if (user) {
       return res.status(400).json({
-        success:false,
-        message:"Username is already taken"
-      })
+        success: false,
+        message: "Username is already taken"
+      });
     }
-    res.staus(200).json({
-      success:true,
-      message:"Username is available"
-    })
-  }
-  catch(err) {
+    res.status(200).json({
+      success: true,
+      message: "Username is available"
+    });
+  } catch (err) {
     console.log(err);
-    res.staus(500).json({
+    res.status(500).json({
       success: false,
       message: 'Internal server error'
     });
   }
-}
+};
 
 export const SignUp = async (req, res) => {
   try {

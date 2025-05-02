@@ -24,7 +24,11 @@ const UserSchema = new mongoose.Schema({
   refreshedToken: {
     type: String
   }
-});
+},
+  {
+    timestamps: true,
+  }
+);
 UserSchema.methods.checkPassword = async function (userPassword) {
   return await isPasswordCorrect(userPassword, this.password);
 };
