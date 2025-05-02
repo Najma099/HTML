@@ -1,43 +1,45 @@
 import React, { useState, useCallback } from 'react';
 import debounce from 'lodash/debounce';
 import axios from 'axios';
-import { z } from 'zod';
 
 const UsernameField = ({ onvalidUsername }) => {
   const [username, setUsername] = useState("");
   const [status, setStatus] = useState("");
-  
+  const [statusColor, setStatusColor] = useState("text-gray-500");
+
   const checkUsername = async (value) => {
-    setStatus("checking....");
+    if (!value.trim()) {
+      setStatus("");
+      onvalidUsername("");
+      return;
+    }
+    
+    setStatus("Checking...");
+    setStatusColor("text-yellow-500");
+
     try {
-      const response = await axios.post("/api/v1/user/check-username", {
+      const response = await axios.post("http://localhost:5001/api/v1/user/check-username", {
         username: value,
       });
 
       if (response.status === 200) {
-        setUsername(value);
+        setStatus("Username is available");
+        setStatusColor("text-green-600");
         onvalidUsername(value);
-        setStatus("Username is Available");
       } else {
+        setStatus("Username already taken");
+        setStatusColor("text-red-600");
         onvalidUsername("");
-        setStatus("Username already taken.");
       }
     } catch (err) {
-      if (err instanceof z.ZodError) {
-        setStatus(err.errors[0].message);
-      } else if (err.response) {
-        setStatus(err.response.data.message);
-        onvalidUsername("");
-      } else {
-        setStatus("An error occurred, please try again.");
-      }
+      const message = err.response?.data?.message || "Error checking username";
+      setStatus(message);
+      setStatusColor("text-red-600");
+      onvalidUsername("");
     }
   };
 
-  const debounceCheck = useCallback(
-    debounce((value) => checkUsername(value), 800),
-      []
-  ); 
+  const debounceCheck = useCallback(debounce(checkUsername, 800), []);
 
   const handleChange = (e) => {
     const value = e.target.value;
@@ -46,16 +48,16 @@ const UsernameField = ({ onvalidUsername }) => {
   };
 
   return (
-    <div>
+    <div className="mb-3">
       <input
         type="text"
         name="username"
-        placeholder="Enter your email" 
+        placeholder="Enter your email"
         value={username}
         onChange={handleChange}
-        className='border-2 bg-gray-100 border-gray-200 rounded-md p-2 w-100 text-grey-400 mb-3'
+        className="border-2 bg-gray-100 border-gray-300 rounded-md p-2 w-full text-gray-800"
       />
-      <p>{status}</p>
+      {status && <p className={`text-sm mt-1 ${statusColor}`}>{status}</p>}
     </div>
   );
 };

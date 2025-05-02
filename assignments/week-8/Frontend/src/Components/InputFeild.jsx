@@ -1,16 +1,14 @@
 import React from "react";
-export default function InputFeild({ label,name, value, type, placeholder, onChange}) {
-  return(
-    <div>
-      <label>{ label}</label>
-      <input 
+
+export default function InputField({ name, type, placeholder }) {
+  return (
+    <div className="mb-4">
+      <input
         type={type}
-        name={ name}
-        placeholder={ placeholder}
-        value={value}
-        onChange={onChange}
-        className="border-2 bg-gray-100 border-gray-200 rounded-md p-2 w-100 text-grey-400 mb-3"
+        name={name}
+        placeholder={placeholder}
+        className="border-2 bg-gray-100 border-gray-300 rounded-md p-2 w-full text-gray-800"
       />
     </div>
-  )
+  );
 }

@@ -6,44 +6,39 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const SignUp = () => {
+  const [error, setError] = useState("");
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    username: "",
-    password: "",
-    firstName: "",
-    lastName: ""
-  });
-
-  const [loading, setLoading] = useState(false);
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
 
   const handleUsernameValid = (value) => {
-    setFormData(prev => ({ ...prev, username: value }));
+    document.querySelector("input[name='username']").value = value;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const { username, password, firstName, lastName } = formData;
+    const form = new FormData(e.target);
+    const username = form.get("username");
+    const password = form.get("password");
+    const firstName = form.get("firstName");
+    const lastName = form.get("lastName");
+
     if (!username || !password || !firstName || !lastName) {
-      alert("Please fill all the fields.");
+      setError("All fields are required");
       return;
     }
 
     try {
-      setLoading(true);
-      const res = await axios.post("/api/v1/user/signup", formData);
-      alert("Signup successful!");
-      console.log(res.data);
-      navigate("/login");
+      const res = await axios.post("http://localhost:5001/api/v1/user/signUp", {
+        username,
+        password,
+        firstName,
+        lastName
+      });
+      console.log(res);
+      navigate('/signUpSuccess');
     } catch (err) {
-      alert("Signup failed. Please try again.");
-      console.error(err);
-    } finally {
-      setLoading(false);
+      console.log(err);
+      setError("Signup failed");
     }
   };
 
@@ -51,8 +46,10 @@ const SignUp = () => {
     <div className="signup-container flex items-center justify-center min-h-screen font-serif">
       <img src={signUp} alt="Sign Up" className='h-[720px] w-[500px]' />
 
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4 p-6 shadow-md rounded-md">
-        <h2 className='text-4xl text-sky-600 text-center mb-3'>Sign Up</h2>
+      <form onSubmit={handleSubmit} className="p-6 w-full max-w-md">
+        <h2 className='text-4xl text-sky-600 text-center mb-4'>Sign Up</h2>
+
+        {error && <p className="text-red-500 text-sm text-center mb-4">{error}</p>}
 
         <UsernameField onvalidUsername={handleUsernameValid} />
 
@@ -60,40 +57,33 @@ const SignUp = () => {
           type="password"
           placeholder="Enter Password"
           name="password"
-          value={formData.password}
-          onChange={handleChange}
         />
 
         <InputField
           type="text"
           placeholder="First Name"
           name="firstName"
-          value={formData.firstName}
-          onChange={handleChange}
         />
 
         <InputField
           type="text"
           placeholder="Last Name"
           name="lastName"
-          value={formData.lastName}
-          onChange={handleChange}
         />
 
         <button
           type="submit"
-          disabled={loading}
-          className={`border-1 border-blue-400 bg-sky-500 p-2 rounded-sm text-white transition-all duration-200 shadow ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
+          className='border border-blue-400 bg-sky-500 p-2 w-full rounded-sm text-white mt-4 transition duration-200 shadow'
         >
-          {loading ? "Signing Up..." : "Sign Up"}
+          Sign Up
         </button>
 
-        <a
-          href="/login"
-          className='border-1 border-sky-500 p-2 rounded-sm text-gray-400 text-center hover:underline'
+        <button
+          type="button"
+          className='border border-sky-500 p-2 w-full rounded-sm text-gray-400 mt-2'
         >
-          Already have an account? Sign In
-        </a>
+         Already have an account? Sign In
+        </button>
       </form>
     </div>
   );

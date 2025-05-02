@@ -4,6 +4,7 @@ import { RecoilRoot } from "recoil";
 import LandingPage from "./pages/Landing.jsx";
 import SignUp from './pages/SignUp.jsx';
 import SignIn from './pages/Signin.jsx';
+import SignUpSuccess from './pages/SignUpSuccess.jsx';
 
 function App() {
   return (
@@ -12,7 +13,8 @@ function App() {
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/signUp" element={<SignUp/>} />
-          <Route path="signin" element={<SignIn/>} />
+          <Route path="/signin" element={<SignIn/>} />
+          <Route path="/signUpSuccess" element={<SignUpSuccess/>} />
         </Routes>
       </Router>
     </RecoilRoot>
