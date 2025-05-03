@@ -1,0 +1,19 @@
+{
+  "name": "week10",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "pg": "^8.15.6",
+    "prisma": "^6.7.0"
+  },
+  "devDependencies": {
+    "@types/pg": "^8.11.14"
+  }
+}
