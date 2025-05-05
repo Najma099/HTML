@@ -4,7 +4,16 @@ function Signin() {
   return (
     <div>
       <h1>Sign In Page</h1>
-      {/* your signin page code */}
+      < InputField 
+        type="text"
+        label="Please Enter your email"
+        name="username"
+      />
+      < InputField 
+        type="password"
+        label="Please Enter your password"
+        name="password"
+      />
     </div>
   );
 }
