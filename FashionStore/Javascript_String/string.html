@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body></body>
+    <script type = "text/javascript">
+      //example-1
+      // let str1= "najma";
+      // let str2= `Khatun`;
+      // let str3 = 'Hlw';
+      // console.log(str1, str2, str3);
+      
+      // example-2
+      // let str1 = 'sachin'; //used internally by
+      // let str2 = new string("Dhoni");//creating an object of string(AutoBoxing primitive ---> Object)
+      
+      // console.log(str1.toUppercase());// helping developer to use methods on that objects(internally let temp = new String(str1));
+      // str1.country = "IND";//support not available because str1: primitive type 
+      // console.log(str1);
+      
+      // str2.country = "IND";
+      // console.log(str2);
+      
+      //example-3
+      //console.log(`Hellooo ${str1}`);//Expression Binding using template Synatax
+      
+      
+      //example-6
+      // let name = 'Javascript';
+      // function printByHighting(strings, value) {
+      //   console.log("call is made...");
+      //   return `${strings[0]}<b>${value[0]}</b> ${strings[1]}`;
+      // }
+      // document.write(printByHighting`learn ${name} from PWIOI`);
+      
+      // doOneMoreTask(user);
+      // function doOneMoreTask(user) {
+      //   return `Hello ${user}`;
+      // }
+      // document.write(`Greating MSG: ${doOneMoreTask('Dhoni')}`);
+      
+      //example - 7
+      // let userType = prompt("Please enter the type of user:", "ADMIN|REGULAR|GUEST");
+      // let Labelname = prompt("Please enter the label Name:", "PASSWORD"|"EMAIL"|"DATE");
+      // let type = prompt("Enter the type of Input"," PASSWORD"|"EMAIL"|"DATE");
+      // let btnLabel = prompt("Please enter the btn text");
+      // let template = `
+      //     <h2>${userType}</h2>
+      //     <dl>
+      //       <dt>${Labelname}</dt>
+      //       <dd><input type=${type}></dd>
+      //     </dl>
+      //     <button>${btnLabel}</button>
+      //   `;
+      // document.write(template);
+      // 
+      
+      //example-8
+      function validateOTP() {
+        const textOTP = document.getElementById("txtOtp");
+        const OTPval = textOTP.value;
+        const msg  = document.getElementById("msg");
+        if(OTPval == '1345') {
+          
+        }
+        else {
+          
+        }
+        
+        function changeUppercase() {
+          const userName = document.getElementById("text");
+          userName.value =(userName.value.toUpperCase)
+        }
+      }
+      <dl>
+        <dt>Enter your name</dt>
+        <dd>
+          <input id="text" ></input>
+        </dd>
+        <dt>Enter OTP</dt>
+        <dd>
+          <input id="txtOtp" size="4" onblur="validateOTP()"></input>
+        </dd>
+        <dd id="msg"></dd>
+      </dl>
+    </script>
+</html>
