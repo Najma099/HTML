@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css">
+
+    <style>
+        body{
+            height: 100vh;
+        }
+    </style>
+</head>
+
+<body class="bg-dark container-fluid d-flex justify-content-center align-items-center">
+
+    <div class="bg-white p-3 w-100 ">
+        <div class="h3 mb-4">PERSONAL EMI CALCULATOR</div>
+        <div class="mb-3">
+
+            <!-- 1st Row -->
+             <div class="row">
+                <div class="col"> 
+                    <label > Amount you need</label>
+                    <input type="text" value="&#8377 5,00,000" id="AmountLabel">
+                </div>
+
+                <div class="col"> 
+                    <label> for</label>
+                    <input type="text" class="w-25" value="5" id="YearLabel">
+                    <label> years</label>
+                </div>
+
+                <div class="col"> 
+                    <label> Amount you need</label>
+                    <input type="text" class="w-25" value="12" id="InterestLabel">
+                    <label>%</label>
+                </div>
+             </div>
+
+            <!-- 2nd Row  -->
+             <div class="row gap-3 ">
+                <input type="range" min="50000" max="4000000" value="50000" class="col" onchange="changeAmount()" id="AmountVal">
+                <input type="range" min="1" max="5" value="5" class="col" onchange="changeYear()" id="YearVal">
+                <input type="range" min="10.5" max="21" value="10.5" step="0.25" class="col" onchange="changeInterest()" id="InterestVal">
+             </div>
+
+            <!-- 3rd Row  -->
+
+            <div class="row " >
+                <div class="col">
+                    <span>50,000</span>
+                    <span class="float-end" >40,00,000</span>
+                </div>
+
+                <div class="col">
+                    <span>1 year</span>
+                    <span class="float-end" >5 year</span>
+                </div>
+
+                <div class="col">
+                    <span>10.5</span>
+                    <span class="float-end" >21%</span>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex justify-content-end" >
+            <button class="btn btn-primary" onclick="calculate()">Calculate</button>
+        </div>
+        <p id="data"  class="d-flex justify-content-center" ></p>
+    </div>
+
+    <script>
+    const options = {
+      style: 'currency',
+      currency: 'INR'
+    };
+    
+    function changeAmount() {
+      const val = document.getElementById("AmountVal").value;
+      const AmountLabel = document.getElementById("AmountLabel");
+      AmountLabel.value = Number(val).toLocaleString('en-IN', options);
+    }
+    
+    function changeYear() {
+      const val = document.getElementById("YearVal").value;
+      const YearLabel = document.getElementById("YearLabel");
+      YearLabel.value = val;
+    }
+    
+    function changeInterest() {
+      const val = document.getElementById("InterestVal").value;
+      const InterestLabel = document.getElementById("InterestLabel");
+      InterestLabel.value = val;
+    }
+    
+    function calculate() {
+      const amount = Number(document.getElementById("AmountVal").value);
+      const years = Number(document.getElementById("YearVal").value);
+      const interestRate = Number(document.getElementById("InterestVal").value);
+    
+      const monthlyRate = interestRate / 12 / 100;
+      const numPayments = years * 12;
+    
+      const emi = (amount * monthlyRate * Math.pow(1 + monthlyRate, numPayments)) / 
+                  (Math.pow(1 + monthlyRate, numPayments) - 1);
+    
+      const data = document.getElementById("data");
+      data.innerHTML = `Your EMI is ${Math.round(emi).toLocaleString('en-IN', options)}`;
+    }
+    </script>
+
+</body>
+
+</html>
