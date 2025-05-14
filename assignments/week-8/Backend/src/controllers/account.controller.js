@@ -15,7 +15,8 @@ export const Balance = async (req, res) => {
     res.status(200).json({
       success: true,
       message: "Balanced fetched successfully",
-      balance: account.balance
+      balance: account.balance,
+      username:req.user.username
     });
   }
   catch(err) {
