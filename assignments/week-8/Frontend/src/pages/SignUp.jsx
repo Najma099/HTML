@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import InputField from '../Components/InputFeild';
 import UsernameField from '../Components/UsernameField';
 import signUp from "../assets/signinn.jpg";
+import Signin from './Signin';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -80,7 +81,10 @@ const SignUp = () => {
 
         <button
           type="button"
-          className='border border-sky-500 p-2 w-full rounded-sm text-gray-400 mt-2'
+          className='border border-sky-500 p-2 w-full rounded-sm text-gray-400 mt-2 underline  hover:text-sky-600'
+          onClick={() => {
+            navigate('/Signin')
+          }}
         >
          Already have an account? Sign In
         </button>

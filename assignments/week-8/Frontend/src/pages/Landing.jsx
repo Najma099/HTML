@@ -10,8 +10,14 @@ function Landing() {
         <h1 className='mb-4 text-6xl text-cyan-600'>Welcome to our App!</h1>
         <div className='mb-3 text-xl text-gray-500'> Experience fast, easy, and the most secure payments with us.</div>
         <div className='flex items-center justify-center gap-6'>
-          <Link to="/signUp"><button className='bg-sky-500 p-2 w-24 rounded-2xl transition-all duration-300 cursor-pointer text-white hover:bg-sky-700 shadow-lg'>SignUp</button></Link>
-          <Link to="/signin"><button className='bg-sky-500 p-2 w-24 rounded-2xl transition-all duration-300 cursor-pointer text-white hover:bg-sky-700 shadow-lg'>SignIn</button></Link>
+          <Link to="/signUp"><button className='bg-sky-500 p-2 w-30 rounded-xl transition-all duration-300 cursor-pointer text-white hover:bg-sky-700 shadow-lg'>SignUp</button></Link>
+          <Link to="/signin"><button className='bg-sky-500 p-2 w-30 rounded-xl transition-all duration-300 cursor-pointer text-white hover:bg-sky-700 shadow-lg'>SignIn</button></Link>
+          <Link
+            to="/dashboard"
+            className="block text-center text-sky-600 underline mt-4 hover:text-sky-800"
+          >
+            Go to Dashboard
+          </Link>
         </div>
       </div>
     </div>

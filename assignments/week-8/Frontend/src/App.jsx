@@ -5,6 +5,7 @@ import LandingPage from "./pages/Landing.jsx";
 import SignUp from './pages/SignUp.jsx';
 import SignIn from './pages/Signin.jsx';
 import SignUpSuccess from './pages/SignUpSuccess.jsx';
+import Dashboard from './pages/Dashboard.jsx';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Route path="/signUp" element={<SignUp/>} />
           <Route path="/signin" element={<SignIn/>} />
           <Route path="/signUpSuccess" element={<SignUpSuccess/>} />
+          <Route path="/dashboard" element={<Dashboard/>}></Route>
         </Routes>
       </Router>
     </RecoilRoot>

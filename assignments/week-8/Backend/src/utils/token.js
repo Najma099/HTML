@@ -2,7 +2,7 @@ import config from "../../config.js";
 import jwt from 'jsonwebtoken';
 const accessToken = (payload) => {
  try{
-   return jwt.sign(payload, config.jwt.secret, {expiresIn: '59m'});
+   return jwt.sign(payload, config.jwt.secret, {expiresIn: '15m'});
  }
  catch(err) {
    console.log("Error generating access token", err);
