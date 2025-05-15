@@ -13,7 +13,6 @@ const UsernameField = ({ onvalidUsername }) => {
       onvalidUsername("");
       return;
     }
-    
     setStatus("Checking...");
     setStatusColor("text-yellow-500");
 
@@ -23,11 +22,11 @@ const UsernameField = ({ onvalidUsername }) => {
       });
       
       if (response.status === 200) {
-        setStatus("Username is available");
+        setStatus("Email is available");
         setStatusColor("text-green-600");
         onvalidUsername(value);
       } else {
-        setStatus("Username already taken");
+        setStatus("Email is already taken");
         setStatusColor("text-red-600");
         onvalidUsername("");
       }
