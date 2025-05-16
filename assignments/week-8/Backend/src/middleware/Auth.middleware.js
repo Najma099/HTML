@@ -4,11 +4,11 @@ import { User } from "../models/User.model.js";
 
 async function Authmiddleware(req, res, next) {
   try {
-    let token = req.headers["authorization"];
-    if (!token || !token.startsWith("Bearer ")) {
+    const token = req.cookies?.accessTokens;
+    if (!token) {
       res.clearCookie("accessTokens", {
         httpOnly: true,
-        secure: true,
+        secure: false,
         sameSite: 'lax'
       });
       return res.status(401).send({
@@ -17,14 +17,13 @@ async function Authmiddleware(req, res, next) {
       });
     }
 
-    token = token.split(" ")[1];
     const decoded = jwt.verify(token, config.jwt.secret);
 
     const user = await User.findById(decoded.id).select("-password -refreshedToken");
     if (!user) {
       res.clearCookie("accessTokens", {
         httpOnly: true,
-        secure: true,
+        secure: false,
         sameSite: 'lax'
       });
       return res.status(401).send({
@@ -32,34 +31,25 @@ async function Authmiddleware(req, res, next) {
         message: "Invalid token. User not found"
       });
     }
-    console.log(user);
+
     req.user = user;
     next();
-  }
-  catch (err) {
+  } catch (err) {
     console.error(`Error verifying the token: ${err}`);
     res.clearCookie("accessTokens", {
       httpOnly: true,
-      secure: true,
+      secure: false,
       sameSite: 'lax'
     });
     res.clearCookie("refreshTokens", {
       httpOnly: true,
-      secure: true,
+      secure: false,
       sameSite: 'lax'
     });
-    
-    if (err.name === "TokenExpiredError") {
-      return res.status(401).send({
-        success: false,
-        message: "Token expired",
-        error: err.message
-      });
-    }
 
     return res.status(401).send({
       success: false,
-      message: "Token invalid",
+      message: err.name === "TokenExpiredError" ? "Token expired" : "Token invalid",
       error: err.message
     });
   }
