@@ -1,34 +1,43 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useRecoilValue } from "recoil";
+import { balanceSelector } from "../store/balance.atom";
 
 function UserDetails() {
-  const [balance, setBalance] = useState("");
+  const balance = useRecoilValue(balanceSelector);
   const [userDetails, setUserDetails] = useState({
     username: "",
     firstName: "",
     lastName: ""
   });
 
-  const fetchBalance = async () => {
-    try {
-      const res = await axios.get("http://localhost:5001/api/v1/account/balance", {
-        withCredentials: true,
-      });
-      
-      setUserDetails({
-        username: res.data.username,
-        firstName: res.data.firstName,
-        lastName: res.data.lastName,
-      });
-
-      setBalance(res.data.balance);
-    } catch (err) {
-      console.log("Error fetching user balance", err);
-    }
-  };
-
   useEffect(() => {
+    let isMounted = true;
+
+    const fetchBalance = async () => {
+      try {
+        const res = await axios.get("http://localhost:5001/api/v1/account/balance", {
+          withCredentials: true,
+        });
+
+        if (isMounted) {
+          setUserDetails({
+            username: res.data.username,
+            firstName: res.data.firstName,
+            lastName: res.data.lastName,
+          });
+        }
+
+      } catch (err) {
+        console.log("Error fetching user Details", err);
+      }
+    };
+
     fetchBalance();
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   return (
