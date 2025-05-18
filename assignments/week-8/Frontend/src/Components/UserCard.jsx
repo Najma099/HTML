@@ -46,7 +46,7 @@ function UserCard({ user }) {
           <h3>{user.firstName}</h3>
           <h3>{user.lastName}</h3>
         </div>
-        <h4 className="text-gray-600">@{user.username}</h4>
+        <h4 className="text-gray-600">{user.username}</h4>
 
         <button
           className="mt-3 px-4 py-1 bg-blue-500 text-white rounded"

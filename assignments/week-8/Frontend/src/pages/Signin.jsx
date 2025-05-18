@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import InputField from '../Components/InputFeild';
+import InputField from '../Components/InputField.jsx';
 import signinn from '../assets/Login.jpg';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';

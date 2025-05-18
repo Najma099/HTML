@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import InputField from '../Components/InputFeild';
+import InputField from '../Components/InputField.jsx';
 import UsernameField from '../Components/UsernameField';
 import signUp from "../assets/signinn.jpg";
 import Signin from './Signin';
@@ -39,7 +39,7 @@ const SignUp = () => {
       navigate('/signUpSuccess');
     } catch (err) {
       console.log(err);
-      setError("Signup failed");
+      setError(`{ $err.message }`);
     }
   };
 

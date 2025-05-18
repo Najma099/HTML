@@ -10,16 +10,19 @@ function Contact() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get(`http://localhost:5001/api/v1/account/contact?search=${search}`,
-          {
-            withCredentials: true
-          });
+        const res = await axios.get(
+          `http://localhost:5001/api/v1/account/contact?search=${search}`,
+          { withCredentials: true }
+        );
 
-        if (res.data.length === 0) {
+        console.log("res.data:", res.data);
+
+        const userList = res.data.users || res.data; 
+        if (!Array.isArray(userList) || userList.length === 0) {
           setMessage("No user exists");
           setUsers([]);
         } else {
-          setUsers(res.data);
+          setUsers(userList);
           setMessage("");
         }
       } catch (err) {
