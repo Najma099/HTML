@@ -1,16 +1,17 @@
 import React, { useState } from "react";
 import axios from "axios";
 import {Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
-import { useRecoilState } from "recoil";
-import { balanceSelector } from "../store/balance.atom";
+import { useSetRecoilState } from "recoil";
+import { balanceAtom } from "../store/balance.atom";
 
 function UserCard({ user }) {
   const [isOpen, setIsOpen] = useState(false);
   const [amount, setAmount] = useState("");
   const [msg, setMsg] = useState("");
-  const setBalance = useRecoilState(balanceSelector);
-
+  const setBalance = useSetRecoilState(balanceAtom);
+  
   const handleTransaction = async () => {
+    console.log("This is getting called");
     const parsedAmount = Number(amount);
     if (Number.isNaN(parsedAmount) || parsedAmount <= 0) {
       setMsg("Please enter a valid number!");
@@ -28,11 +29,11 @@ function UserCard({ user }) {
           withCredentials: true,
         }
       );
-
       setBalance(res.data.remainingBalance);
       setMsg(res.data.message + ` Remaining Balance: ₹${res.data.remainingBalance}`);
       setAmount("");
     } catch (err) {
+      console.log(err);
       setMsg(err.response?.data?.message || "Transfer failed.");
     }
   };

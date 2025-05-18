@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useRecoilValue } from "recoil";
-import { balanceSelector } from "../store/balance.atom";
+import { balanceAtom } from "../store/balance.atom";
 
 function UserDetails() {
-  const balance = useRecoilValue(balanceSelector);
+  const balance = useRecoilValue(balanceAtom);
   const [userDetails, setUserDetails] = useState({
     username: "",
     firstName: "",
