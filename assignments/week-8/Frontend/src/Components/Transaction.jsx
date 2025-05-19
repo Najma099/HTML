@@ -14,7 +14,7 @@ const TransactionHistory = () => {
         const res = await axios.get(apiDomain + '/api/v1/account/history', {
           withCredentials: true,
         });
-
+        console.log(res.data);
         if (res.data && Array.isArray(res.data.transactions)) {
           setTransactions(res.data.transactions.slice());
         } else {
