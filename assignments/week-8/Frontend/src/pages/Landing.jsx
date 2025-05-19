@@ -12,12 +12,6 @@ function Landing() {
         <div className='flex items-center justify-center gap-6'>
           <Link to="/signUp"><button className='bg-sky-500 p-2 w-30 rounded-xl transition-all duration-300 cursor-pointer text-white hover:bg-sky-700 shadow-lg'>SignUp</button></Link>
           <Link to="/signin"><button className='bg-sky-500 p-2 w-30 rounded-xl transition-all duration-300 cursor-pointer text-white hover:bg-sky-700 shadow-lg'>SignIn</button></Link>
-          <Link
-            to="/dashboard"
-            className="block text-center text-sky-600 underline mt-4 hover:text-sky-800"
-          >
-            Go to Dashboard
-          </Link>
         </div>
       </div>
     </div>
