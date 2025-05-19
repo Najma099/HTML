@@ -42,6 +42,7 @@ function Contact() {
         value={search}
         onChange={(e) => setSearch(e.target.value)}
         placeholder="Search user..."
+        className="border-2 bg-gray-100 border-gray-300 rounded-md p-2 w-full text-gray-800 mt-4 mb-4 "
       />
 
       {message && <p>{message}</p>}

@@ -40,16 +40,20 @@ function UserCard({ user }) {
 
   return (
     <>
-      <div className="border p-4 rounded shadow-md mb-4">
-        <div>👤</div>
-        <div className="flex gap-2 font-semibold">
-          <h3>{user.firstName}</h3>
-          <h3>{user.lastName}</h3>
+      <div className="p-3 mb-3 flex items-center text-center justify-between border-b-2 border-gray-200">
+        <div>
+          <div className="flex gap-2">
+            <div className="">👤</div>
+            <div className="flex gap-2 font-semibold">
+              <h3>{user.firstName}</h3>
+              <h3>{user.lastName}</h3>
+            </div>
+          </div>
+          <h4 className="ml-6 text-gray-500">{user.username}</h4>
         </div>
-        <h4 className="text-gray-600">{user.username}</h4>
 
         <button
-          className="mt-3 px-4 py-1 bg-blue-500 text-white rounded"
+          className="mt-3 px-4 py-1 bg-blue-500 text-white rounded-s"
           onClick={() => {
             setMsg("");
             setIsOpen(true);
