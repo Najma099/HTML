@@ -1,6 +1,7 @@
 import { Account } from "../models/Accounts.model.js";
 import { Transaction } from "../models/Transaction.model.js";
 import { User } from "../models/User.model.js";
+import mongoose from "mongoose";
 
 export const Balance = async (req, res) => {
   try{
@@ -160,12 +161,12 @@ export const GetTransactionHistory = async (req, res) => {
       to: txn.to.username,
       timestamp: txn.createdAt
     }));
+    
 
     res.status(200).json({
       success: true,
       transactions: formatted
     });
-
   } catch (err) {
     console.error("Error fetching transaction history:", err);
     res.status(500).json({
