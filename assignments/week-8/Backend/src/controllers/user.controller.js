@@ -108,9 +108,13 @@ export const SignIn = async (req, res) => {
     await existUser.save();
     
     const options = {
+      // httpOnly: true,
+      // secure: false,
+      // sameSite: 'lax',
       httpOnly: true,
-      secure: false,
-      sameSite: 'lax',
+      secure: true,
+      sameSite: "None",
+      path: "/",  
     };
     
     res
