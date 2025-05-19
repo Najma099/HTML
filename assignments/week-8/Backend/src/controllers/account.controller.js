@@ -150,24 +150,22 @@ export const GetTransactionHistory = async (req, res) => {
       $or: [{ from: userId }, { to: userId }]
     })
       .sort({ createdAt: -1 })
-      .populate("from", "username")
-      .populate("to", "username");
+      .populate("from", "username firstName lastName")
+      .populate("to", "username firstName lastName")
 
     const formatted = transactions.map(txn => {return {
-          _id: txn._id,
-          type: txn.from._id.equals(userId) ? "debit" : "credit",
-          amount: txn.amount,
-          from: txn.from.username,
-          to: txn.to.username,
-          RfirstName: txn.to.firstName,
-          RlastName: txn.to.lastName,
-          SfirstName: txn.from.firstName,
-          SlastName: txn.from.lastName,
-          timestamp: txn.createdAt
+      _id: txn._id,
+      type: txn.from._id.equals(userId) ? "debit" : "credit",
+      amount: txn.amount,
+      from: txn.from.username,
+      SfirstName: txn.from.firstName,
+      SlastName: txn.from.lastName,
+      RfirstName: txn.to.firstName,
+      RlastName: txn.to.lastName,
+      to: txn.to.username,
+      timestamp: txn.createdAt
     }});
 
-
-    
     console.log(formatted);
     res.status(200).json({
       success: true,
