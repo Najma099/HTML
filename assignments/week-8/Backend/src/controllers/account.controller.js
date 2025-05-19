@@ -159,6 +159,8 @@ export const GetTransactionHistory = async (req, res) => {
       amount: txn.amount,
       from: txn.from.username,
       to: txn.to.username,
+      firstName: txn.to.firstName,
+      lastName: txn.to.lastName,
       timestamp: txn.createdAt
     }));
     
