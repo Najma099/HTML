@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { transactionAtom } from '../store/transaction.atom';
 import axios from 'axios';
+import { apiDomain } from '../utils/config';
 
 const TransactionHistory = () => {
   const [transactions, setTransactions] = useRecoilState(transactionAtom);
@@ -10,7 +11,7 @@ const TransactionHistory = () => {
   useEffect(() => {
     const fetchTransactions = async () => {
       try {
-        const res = await axios.get('http://localhost:5001/api/v1/account/history', {
+        const res = await axios.get(apiDomain + '/api/v1/account/history', {
           withCredentials: true,
         });
 

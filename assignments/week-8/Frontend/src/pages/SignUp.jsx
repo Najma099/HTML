@@ -5,6 +5,7 @@ import signUp from "../assets/signinn.jpg";
 import Signin from './Signin';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { apiDomain } from '../utils/config.js';
 
 const SignUp = () => {
   const [error, setError] = useState("");
@@ -29,7 +30,7 @@ const SignUp = () => {
     }
 
     try {
-      const res = await axios.post("http://localhost:5001/api/v1/user/signUp", {
+      const res = await axios.post(apiDomain + "/api/v1/user/signUp", {
         username,
         password,
         firstName,

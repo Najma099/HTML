@@ -3,6 +3,7 @@ import axios from "axios";
 import {Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import { useSetRecoilState } from "recoil";
 import { balanceAtom } from "../store/balance.atom";
+import { apiDomain } from "../utils/config";
 
 function UserCard({ user }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -20,7 +21,7 @@ function UserCard({ user }) {
 
     try {
       const res = await axios.post(
-        "http://localhost:5001/api/v1/account/transfer",
+        apiDomain + "/api/v1/account/transfer",
         {
           toUserId: user._id,
           amount: parsedAmount,

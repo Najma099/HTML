@@ -3,6 +3,7 @@ import InputField from '../Components/InputField.jsx';
 import signinn from '../assets/Login.jpg';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { apiDomain } from '../utils/config.js';
 
 function Signin() {
   const [err, setErr] = useState("")
@@ -20,7 +21,7 @@ function Signin() {
     }
     
     try{
-      const res = await axios.post("http://localhost:5001/api/v1/user/signin",
+      const res = await axios.post(apiDomain + "/api/v1/user/signin",
         {
           username: username,
           password: password

@@ -3,6 +3,7 @@ import axios from "axios";
 import { useRecoilValue } from "recoil";
 import { balanceAtom } from "../store/balance.atom";
 import { Link } from "react-router-dom";
+import { apiDomain } from "../utils/config";
 
 function UserDetails() {
   const balance = useRecoilValue(balanceAtom);
@@ -17,7 +18,7 @@ function UserDetails() {
 
     const fetchBalance = async () => {
       try {
-        const res = await axios.get("http://localhost:5001/api/v1/account/balance", {
+        const res = await axios.get(apiDomain + "/api/v1/account/balance", {
           withCredentials: true,
         });
 

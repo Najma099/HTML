@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import debounce from 'lodash/debounce';
 import axios from 'axios';
+import { apiDomain } from '../utils/config';
 
 const UsernameField = ({ onvalidUsername }) => {
   const [username, setUsername] = useState("");
@@ -17,7 +18,7 @@ const UsernameField = ({ onvalidUsername }) => {
     setStatusColor("text-yellow-500");
 
     try {
-      const response = await axios.post("http://localhost:5001/api/v1/user/check-username", {
+      const response = await axios.post(apiDomain + "/api/v1/user/check-username", {
         username: value,
       });
       

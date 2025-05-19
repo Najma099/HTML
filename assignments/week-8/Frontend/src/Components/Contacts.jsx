@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import UserCard from "./UserCard";
+import { apiDomain } from "../utils/config";
 
 function Contact() {
   const [search, setSearch] = useState("");
@@ -11,7 +12,7 @@ function Contact() {
     const fetchData = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:5001/api/v1/account/contact?search=${search}`,
+          `${apiDomain}/api/v1/account/contact?search=${search}`,
           { withCredentials: true }
         );
 
