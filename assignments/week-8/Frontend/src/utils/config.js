@@ -1,1 +1,1 @@
-export const apiDomain = "https://payment-easy.vercel.app";
+export const apiDomain = "https://payment-app.up.railway.app";
