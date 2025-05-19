@@ -153,18 +153,20 @@ export const GetTransactionHistory = async (req, res) => {
       .populate("from", "username")
       .populate("to", "username");
 
-    const formatted = transactions.map(txn => ({
-      _id: txn._id,
-      type: txn.from._id.equals(userId) ? "debit" : "credit",
-      amount: txn.amount,
-      from: txn.from.username,
-      to: txn.to.username,
-      RfirstName: txn.to.firstName,
-      RlastName: txn.to.lastName,
-      SfirstName: txn.from.firstName,
-      SlastName: txn.from.lastName,
-      timestamp: txn.createdAt
-    }));
+    const formatted = transactions.map(txn => {return {
+          _id: txn._id,
+          type: txn.from._id.equals(userId) ? "debit" : "credit",
+          amount: txn.amount,
+          from: txn.from.username,
+          to: txn.to.username,
+          RfirstName: txn.to.firstName,
+          RlastName: txn.to.lastName,
+          SfirstName: txn.from.firstName,
+          SlastName: txn.from.lastName,
+          timestamp: txn.createdAt
+    }});
+
+
     
     console.log(formatted);
     res.status(200).json({
