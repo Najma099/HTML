@@ -68,7 +68,7 @@ const TransactionHistory = () => {
                   <td className="py-4 pr-8 align-top">
                     <p className="text-sm text-gray-500 mb-1">Received from</p>
                     <h2 className="text-base font-semibold text-gray-800">
-                      {txn.firstName} {txn.lastName}
+                      {txn.SfirstName} {txn.SlastName}
                     </h2>
                   </td>
                   
@@ -101,7 +101,7 @@ const TransactionHistory = () => {
                   <td className="py-4 pr-8 align-top">
                     <p className="text-sm text-gray-500 mb-1">Paid to</p>
                     <h2 className="text-base font-semibold text-gray-800">
-                      {txn.firstName} {txn.lastName}
+                      {txn.RfirstName} {txn.RlastName}
                     </h2>
                   </td>
                   
