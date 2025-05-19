@@ -166,7 +166,7 @@ export const GetTransactionHistory = async (req, res) => {
       timestamp: txn.createdAt
     }));
     
-
+    console.log(formatted);
     res.status(200).json({
       success: true,
       transactions: formatted
