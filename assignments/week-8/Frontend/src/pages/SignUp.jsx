@@ -39,13 +39,21 @@ const SignUp = () => {
       console.log(res);
       navigate('/signUpSuccess');
     } catch (err) {
-      console.log(err);
-      if (err.response && err.response.data && err.response.data.message) {
-        setError(err.response.data.message);
+      if (err.response && err.response.data) {
+        const data = err.response.data;
+        if (data.errors && Array.isArray(data.errors)) {
+          const messages = data.errors.map(e => e.message).join(", ");
+          setError(messages);
+        } else if (data.message) {
+          setError(data.message);
+        } else {
+          setError(`Error: ${err.message}`);
+        }
       } else {
-        setError(`Error: ${err.message}`);
+        setError("Something went wrong");
       }
     }
+
   };
 
   return (
