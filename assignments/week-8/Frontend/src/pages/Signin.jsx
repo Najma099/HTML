@@ -42,8 +42,8 @@ function Signin() {
     }
   }
   return (
-    <div className='md:flex justify-center text-center items-center min-h-screen font-serif hidden'>
-      <img src={signinn} className='w-1/2'></img>
+    <div className='flex justify-center text-center items-center min-h-screen font-serif '>
+      <img src={signinn} className='w-1/2 hidden md:block'></img>
       <form onSubmit={handleSubmit} className='p-6 w-full max-w-md '>
         <h1 className='text-4xl text-sky-600 text-center mb-4'>Sign In </h1>
         {err && <p className="text-red-500 text-sm mb-4">{err}</p>}
