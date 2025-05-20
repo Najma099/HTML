@@ -6,7 +6,7 @@ export const UsernameSchema = z.object({
 
 export const UserSchema = z.object({
   username: z.string().email('Invalid email format'),
-  password: z.string().min(8, 'Minimum 8 characters'),
+  password: z.string().min(6, 'Minimum 6 characters'),
   firstName: z.string(),
   lastName: z.string()
 });

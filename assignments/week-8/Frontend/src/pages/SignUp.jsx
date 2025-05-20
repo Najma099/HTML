@@ -50,7 +50,7 @@ const SignUp = () => {
 
   return (
     <div className="signup-container flex items-center justify-center min-h-screen font-serif">
-      <img src={signUp} alt="Sign Up" className='h-[720px] w-[500px]' />
+      <img src={signUp} alt="Sign Up" className='h-[720px] w-[500px] hidden md:block' />
 
       <form onSubmit={handleSubmit} className="p-6 w-full max-w-md">
         <h2 className='text-4xl text-sky-600 text-center mb-4'>Sign Up</h2>
