@@ -51,11 +51,13 @@ function Signin() {
           type="text"
           placeholder="Enter email"
           name="username"
+          autoComplete="username"
         />
         < InputField 
           type="password"
           placeholder="Enter password"
           name="password"
+          autoComplete="current-password"
         />
         <button
           type="submit"
