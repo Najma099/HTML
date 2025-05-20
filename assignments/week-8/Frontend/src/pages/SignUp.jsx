@@ -42,9 +42,15 @@ const SignUp = () => {
       if (err.response && err.response.data) {
         const data = err.response.data;
         if (data.errors && Array.isArray(data.errors)) {
-          const messages = data.errors.map(e => e.message).join(", ");
+          const messages = data.errors
+            .map(e => {
+              const field = e.path?.[0] || "field";
+              return `${field}: ${e.message}`;
+            })
+            .join(", ");
           setError(messages);
-        } else if (data.message) {
+        }
+        else if (data.message) {
           setError(data.message);
         } else {
           setError(`Error: ${err.message}`);
