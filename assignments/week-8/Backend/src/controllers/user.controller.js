@@ -78,17 +78,28 @@ export const SignUp = async (req, res) => {
 
 export const SignIn = async (req, res) => {
   try {
-    const existUser = await User.findOne({ username: req.user.username });
+    const { username, password } = req.body;
+
+    if (!username || !password) {
+      return res.status(400).json({
+        success: false,
+        message: "Username and password are required.",
+      });
+    }
+
+    const existUser = await User.findOne({ username });
+
     if (!existUser) {
-      return res.status(401).send({
+      return res.status(401).json({
         success: false,
         message: "Invalid credentials. Username doesn't exist.",
       });
     }
 
-    const checkPass = await existUser.checkPassword(req.user.password);
+    const checkPass = await existUser.checkPassword(password);
+
     if (!checkPass) {
-      return res.status(401).send({
+      return res.status(401).json({
         success: false,
         message: "Invalid credentials. Incorrect password.",
       });
@@ -106,36 +117,33 @@ export const SignIn = async (req, res) => {
 
     existUser.refreshedToken = refreshedTokens;
     await existUser.save();
-    
-    const options = {
-      // httpOnly: true,
-      // secure: false,
-      // sameSite: 'lax',
+
+    const cookieOptions = {
       httpOnly: true,
       secure: true,
       sameSite: "None",
-      path: "/",  
+      path: "/",
     };
-    
+
     res
       .status(200)
-      .cookie("accessTokens", accessTokens, options)
-      .cookie("refreshedTokens", refreshedTokens, options)
+      .cookie("accessTokens", accessTokens, cookieOptions)
+      .cookie("refreshedTokens", refreshedTokens, cookieOptions)
       .json({
         success: true,
         message: `${existUser.username} logged in successfully`,
         accessToken: accessTokens,
-        refreshedToken: refreshedTokens
+        refreshedToken: refreshedTokens,
       });
   } catch (err) {
-    console.error(`Signin Error: ${err}`);
+    console.error("Signin Error:", err);
     res.status(500).json({
       success: false,
       message: err?.message || "Unexpected error during signin",
-      err,
     });
   }
 };
+
 
 export const RefreshedToken = async (req, res) => {
   try {
