@@ -37,8 +37,11 @@ function Signin() {
       navigate("/dashboard");
     }
     catch(err) {
-      console.log(err);
-      setErr("Something went wrong. Please try again.");
+      if (err.response && err.response.data) {
+        setErr(err.response.data.message || "Something went wrong. Please try again.");
+        } else {
+        setErr("Something went wrong. Please try again.");
+      }
     }
   }
   return (
@@ -48,7 +51,7 @@ function Signin() {
         <h1 className='text-4xl text-sky-600 text-center mb-4'>Sign In </h1>
         {err && <p className="text-red-500 text-sm mb-4">{err}</p>}
         < InputField 
-          type="text"
+          type="email"
           placeholder="Enter email"
           name="username"
           autoComplete="username"
