@@ -50,7 +50,7 @@ function UserCard({ user }) {
               <h3>{user.lastName}</h3>
             </div>
           </div>
-          <h4 className="ml-6 text-gray-500">{user.username}</h4>
+          <h4 className="ml-6 text-gray-500 text-left">{user.username}</h4>
         </div>
 
         <button
