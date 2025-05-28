@@ -60,12 +60,37 @@ export const SignUp = async (req, res) => {
     const balance = Math.floor(Math.random() * (100000 - 50000 + 1)) + 50000;
     const newAccount = await Account.create({ userId: createdUser._id, balance: balance });
     
-    res.status(201).json({
-      success: true,
-      message: "User is created successfully!",
-      newUser,
-      newAccount:balance
+    const accessTokens = accessToken({
+      id: createdUser._id,
+      username: createdUser.username
     });
+    
+    const refreshedTokens = refreshedToken({
+      id: createdUser._id,
+      username: createdUser.username
+    });
+    
+    createdUser.refreshedToken = refreshedTokens;
+    await createdUser.save();
+    
+    const cookieOptions = {
+      httpOnly: true,
+      secure: true,
+      sameSite: "None",
+      path: '/'
+    }
+    res.
+      status(201)
+      .cookie("accessTokens",accessTokens,cookieOptions)
+      .cookie("refreshedTokens",refreshedTokens, cookieOptions )
+      .json({
+        success: true,
+        message: "User is created and logged in successfully!",
+        user: newUser,
+        balance: balance,
+        accessToken: accessTokens,
+        refreshedToken: refreshedTokens,
+      });
   } 
   catch (err) {
     console.error("Signup Error:", err);
