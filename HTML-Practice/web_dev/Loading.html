@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+    <style type="text/css">
+        progress {
+            width: 300px;
+            height: 30px;
+        }
+
+        @keyframes Zoomin {
+            from {
+                width: 50px;
+                height: 50px;
+                transform: rotate(0deg);
+            }
+            to {
+                width: 300px;
+                height: 300px;
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+
+    <script type="text/javascript">
+        var count = 1;
+        var timer;
+        function pause() {
+            clearInterval(timer);
+        }
+
+        function play() {
+            timer = setInterval(loadProgressBar, 100);
+        }
+
+        function loadProgressBar() {
+            count++;
+            document.querySelector("progress").value = count;
+            document.querySelector("#status").textContent = `${count}% progressed`;
+
+
+            if (count === 100) {
+                clearInterval(timer);
+
+                //make progress bar hidden
+                document.querySelector("#progressContainer").style.display = 'none';
+
+                //load the image with some animation
+                document.getElementById("imageContainer").style.display = 'block';
+                document.getElementById("poster").src = 'iphone.jpg'
+                document.getElementById("poster").style.animationName = "Zoomin";
+                document.getElementById("poster").style.animationDuration = "10s";
+            }
+
+        }
+        function loadData() {
+            //1. Target progress bar and make it visible 
+            document.getElementById("progressContainer").style.display = 'block';
+
+            //2. Target button and make it hidden
+            document.getElementById("buttonContainer").style.display = 'none';
+
+            timer = setInterval(loadProgressBar, 100);
+        }
+    </script>
+
+</head>
+
+<body class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+    <div class="text-center">
+
+        <div id="buttonContainer">
+            <button class="btn btn-primary" onclick="loadData()">Load Image</button>
+        </div>
+
+        <div id="progressContainer" style="display: none;">
+            <button class="bi bi-pause btn btn-danger" onclick="pause()"></button>
+            <button class="bi bi-play btn btn-primary" onclick="play()"></button>
+            <div>
+                <progress min="1" max="100" id="progress" value="1"></progress>
+                <p id="status"></p>
+            </div>
+        </div>
+
+        <div id="imageContainer" style="display: none;">
+            <img border="1" alt="" width="300" height="300" id="poster">
+        </div>
+
+    </div>
+
+</body>
+
+</html>
