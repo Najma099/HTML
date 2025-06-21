@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="box">Box 1</div>
+        <div class="box">Box 2</div>
+        <div class="box">Box 3</div>
+    </div>
+    <script>
+    const colors = ['red', 'green', 'blue'];
+    const boxes = document.querySelectorAll('.box');
+    let tick = 0;
+
+    setInterval(() => {
+        boxes.forEach((box, i) => {
+            const colorIndex = (tick + i) % colors.length;
+            box.style.backgroundColor = colors[colorIndex];
+        });
+        tick++;
+    }, 1000); // rotate every 1 second
+</script>
+
+</body>
+</html>

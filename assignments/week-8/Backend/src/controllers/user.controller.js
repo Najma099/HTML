@@ -122,7 +122,6 @@ export const SignIn = async (req, res) => {
     }
 
     const checkPass = await existUser.checkPassword(password);
-
     if (!checkPass) {
       return res.status(401).json({
         success: false,

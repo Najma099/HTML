@@ -1,7 +1,8 @@
-import React, { memo } from 'react';
+import React from 'react';
 import './App.css';
 import { RecoilRoot, useRecoilValue,useSetRecoilState } from 'recoil';
-import { countAtom } from './store/atoms/count';
+import { countAtom, evenSelector } from './store/atoms/count.js';
+
 
 function App() {
   console.log("App")
@@ -18,6 +19,7 @@ function Count() {
     <div>
       <Countrender ></Countrender>
       <Buttons ></Buttons>
+      <Msg></Msg>
     </div>
   );
 }
@@ -31,8 +33,7 @@ function Countrender() {
   );
 }
 
-// Import memo from React
-const Buttons = memo(() => {
+const Buttons = () => {
   const setCount = useSetRecoilState(countAtom);
   return(
     <>
@@ -45,6 +46,15 @@ const Buttons = memo(() => {
          }}>Decrease</button>
     </>
   );
-});
+};
+
+const Msg = () => {
+  const isEven = useRecoilValue(evenSelector);
+  return(
+    <div>
+      {isEven ? "It is even" : "It is odd"};
+    </div>
+  )
+}
 
 export default App;

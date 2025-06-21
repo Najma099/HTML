@@ -1,22 +1,14 @@
-import { RecoilRoot, useRecoilValue } from "recoil";
-import todosAtomFamily from './atom.js'
+import TransactionHistory from "./Transaction";
+import { RecoilRoot } from "recoil";
+import React from 'react';
+
 function App() {
   return(
     <RecoilRoot>
-      <Todo id={1} ></Todo>
-      <Todo id={2}></Todo>
+     <TransactionHistory></TransactionHistory>
     </RecoilRoot>
   )
 }
 
-function Todo({id}) {
-  const currentTodo = useRecoilValue(todosAtomFamily(id));
-  
-  return(
-    <>
-      <h3>{currentTodo.title }</h3>
-      <p>{currentTodo.description}</p>
-    </>
-  )
-}
+
 export default App;

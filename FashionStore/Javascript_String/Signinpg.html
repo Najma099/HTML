@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign In</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div id="login" class="bg-white p-8 rounded shadow-md w-full max-w-sm">
+      <h2 class="text-2xl font-bold mb-4 text-center">Sign In</h2>
+      <p class="mb-2">Enter Email or Phone number</p>
+      <input
+        id="userData"
+        type="text"
+        class="w-full p-2 border border-gray-300 rounded mb-4"
+        placeholder="Email or Phone"
+      />
+      <p id="ErrorData"></p>
+      <button
+        class="w-full bg-yellow-500 text-white p-2 rounded hover:bg-yellow-600"
+        onclick="validata()"
+      >
+        Continue
+      </button>
+    </div>
+
+    <div id="password" class="bg-white p-8 rounded shadow-md w-full max-w-sm" style="display: none;">
+      <h2 class="text-2xl font-bold mb-4 text-center">Enter Password</h2>
+      <p class="mb-2">Please enter your password.</p>
+      <input
+        id="passwordField"
+        type="password"
+        class="w-full p-2 border border-gray-300 rounded mb-4"
+        placeholder="Password"
+      />
+      <p id="Errorpwd"></p>
+      <button
+        class="w-full bg-yellow-500 text-white p-2 rounded hover:bg-yellow-600"
+        onclick="validatePass()"
+      >
+        Login
+      </button>
+    </div id='otp'>
+        
+    <div style="display: none;>
+        <h2 class="text-2xl font-bold mb-4 text-center">Enter otp</h2>
+        <p class="mb-2">Please enter the otp.</p>
+        <input
+          id="otpField"
+          type="password"
+          class="w-full p-2 border border-gray-300 rounded mb-4"
+          placeholder="Password"
+        />
+        <p id="Errorotp"></p>
+        <button
+          class="w-full bg-yellow-500 text-white p-2 rounded hover:bg-yellow-600"
+          onclick="validatePass()"
+        >
+          Login
+        </button>
+    </div>
+
+    <script>
+      const userInput = document.getElementById("userData").value;
+      function validata() {
+        const errorData = document.getElementById("ErrorData").value;
+        if (userInput === "najma@gmail.com") {
+          document.getElementById("login").style.display = "none";
+          document.getElementById("password").style.display = "block";
+        } else if(userInput == '8876736524'){
+          document.getElementById("login").style.display = "none";
+          document.getElementById("password").style.display = "block";
+        } else if(/^\d{10}$/) {
+          errorData.textContent = `${userInput} is not a regsitered mobile number`
+        }
+        else {
+          errorData.textContent = `${userInput} is not a regsitered email`
+        }
+      }
+      
+      function validatePass() {
+        const pass = document.getElementById("passwordField").value;
+        if(pass == '1234') {
+          document.write(`<p>${ userInput} logged in successfully</p>`)
+        }
+        else {
+          document.getElementById("Errorpwd").textContent = "Incorrect password!"
+        }
+      }
+      
+      function validateotp() {
+        const otp = document.getElementById("")
+      }
+      
+    </script>
+  </body>
+</html>

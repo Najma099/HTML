@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import {Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import { useSetRecoilState } from "recoil";
@@ -34,6 +34,7 @@ function UserCard({ user }) {
       setMsg(res.data.message + ` Remaining Balance: ₹${res.data.remainingBalance}`);
       setAmount("");
     } catch (err) {
+      
       console.log(err);
       setMsg(err.response?.data?.message || "Transfer failed.");
     }

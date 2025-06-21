@@ -1,0 +1,1 @@
+export const apiDomain = "https://payment-app.up.railway.app";
