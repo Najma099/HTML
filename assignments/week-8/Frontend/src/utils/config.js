@@ -1,1 +1,1 @@
-export const apiDomain = "https://payment-app.up.railway.app";
+export const apiDomain = "https://payment-g4cd.onrender.com";
